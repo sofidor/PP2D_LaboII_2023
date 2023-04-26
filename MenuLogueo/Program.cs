@@ -1,4 +1,4 @@
-namespace PPLaboII_Dorbessan
+namespace MenuLogueo
 {
     internal static class Program
     {
@@ -11,7 +11,7 @@ namespace PPLaboII_Dorbessan
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new FrmInicio());
+            Application.Run(new FrmLogueo());
         }
     }
 }
