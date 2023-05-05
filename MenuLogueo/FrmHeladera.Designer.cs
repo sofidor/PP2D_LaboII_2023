@@ -28,33 +28,76 @@
         /// </summary>
         private void InitializeComponent()
         {
-            label1 = new Label();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmHeladera));
+            btnHeladera = new Button();
+            btnVender = new Button();
+            btnVolver = new Button();
             SuspendLayout();
             // 
-            // label1
+            // btnHeladera
             // 
-            label1.AutoSize = true;
-            label1.Location = new Point(102, 74);
-            label1.Name = "label1";
-            label1.Size = new Size(84, 20);
-            label1.TabIndex = 0;
-            label1.Text = "hola guapa";
-            label1.Click += label1_Click;
+            btnHeladera.BackColor = Color.SeaShell;
+            btnHeladera.FlatStyle = FlatStyle.Flat;
+            btnHeladera.Font = new Font("Dubai", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            btnHeladera.ForeColor = Color.Black;
+            btnHeladera.Image = (Image)resources.GetObject("btnHeladera.Image");
+            btnHeladera.ImageAlign = ContentAlignment.MiddleLeft;
+            btnHeladera.Location = new Point(76, 74);
+            btnHeladera.Name = "btnHeladera";
+            btnHeladera.Size = new Size(255, 89);
+            btnHeladera.TabIndex = 0;
+            btnHeladera.Text = "         Ver Heladera";
+            btnHeladera.UseVisualStyleBackColor = false;
+            btnHeladera.Click += btnHeladera_Click;
+            // 
+            // btnVender
+            // 
+            btnVender.BackColor = Color.SeaShell;
+            btnVender.FlatStyle = FlatStyle.Flat;
+            btnVender.Font = new Font("Dubai", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            btnVender.ForeColor = Color.Black;
+            btnVender.Image = (Image)resources.GetObject("btnVender.Image");
+            btnVender.ImageAlign = ContentAlignment.MiddleLeft;
+            btnVender.Location = new Point(76, 215);
+            btnVender.Name = "btnVender";
+            btnVender.Size = new Size(255, 91);
+            btnVender.TabIndex = 1;
+            btnVender.Text = "Realizar una venta";
+            btnVender.TextAlign = ContentAlignment.MiddleRight;
+            btnVender.UseVisualStyleBackColor = false;
+            btnVender.Click += btnVender_Click;
+            // 
+            // btnVolver
+            // 
+            btnVolver.BackColor = Color.SkyBlue;
+            btnVolver.Image = (Image)resources.GetObject("btnVolver.Image");
+            btnVolver.Location = new Point(302, 340);
+            btnVolver.Name = "btnVolver";
+            btnVolver.Size = new Size(98, 29);
+            btnVolver.TabIndex = 13;
+            btnVolver.UseVisualStyleBackColor = false;
+            btnVolver.Click += btnVolver_Click_1;
             // 
             // FrmHeladera
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(322, 174);
-            Controls.Add(label1);
+            BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
+            ClientSize = new Size(412, 381);
+            Controls.Add(btnVolver);
+            Controls.Add(btnVender);
+            Controls.Add(btnHeladera);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "FrmHeladera";
-            Text = "FrmHeladera";
+            StartPosition = FormStartPosition.CenterScreen;
+            FormClosing += FrmHeladera_FormClosing;           
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
 
-        private Label label1;
+        private Button btnHeladera;
+        private Button btnVender;
+        private Button btnVolver;
     }
 }

@@ -5,6 +5,8 @@ VisualStudioVersion = 17.5.33502.453
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MenuLogueo", "MenuLogueo\MenuLogueo.csproj", "{B02951AA-BB6F-43C1-86B8-9CF000BD0879}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BibliotecaDeClases", "BibliotecaDeClases\BibliotecaDeClases.csproj", "{91EF5AFD-8714-472A-9AF3-3290F85206B8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{B02951AA-BB6F-43C1-86B8-9CF000BD0879}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B02951AA-BB6F-43C1-86B8-9CF000BD0879}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B02951AA-BB6F-43C1-86B8-9CF000BD0879}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91EF5AFD-8714-472A-9AF3-3290F85206B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91EF5AFD-8714-472A-9AF3-3290F85206B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91EF5AFD-8714-472A-9AF3-3290F85206B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91EF5AFD-8714-472A-9AF3-3290F85206B8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

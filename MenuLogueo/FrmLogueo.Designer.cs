@@ -37,13 +37,11 @@
             chBContraseña = new CheckBox();
             btnLoguearse = new Button();
             lbCorreo = new Label();
-            gbUsuario = new GroupBox();
-            rbCliente = new RadioButton();
-            rbVendedor = new RadioButton();
             label3 = new Label();
             pictureBox2 = new PictureBox();
+            btnVendedor = new Button();
+            btnCliente = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
-            gbUsuario.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             SuspendLayout();
             // 
@@ -110,9 +108,10 @@
             // 
             // btnLoguearse
             // 
-            btnLoguearse.BackColor = SystemColors.Window;
-            btnLoguearse.ForeColor = Color.Black;
-            btnLoguearse.Location = new Point(479, 450);
+            btnLoguearse.BackColor = Color.LightGray;
+            btnLoguearse.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
+            btnLoguearse.ForeColor = Color.DimGray;
+            btnLoguearse.Location = new Point(479, 451);
             btnLoguearse.Name = "btnLoguearse";
             btnLoguearse.Size = new Size(279, 41);
             btnLoguearse.TabIndex = 9;
@@ -130,49 +129,12 @@
             lbCorreo.Size = new Size(0, 25);
             lbCorreo.TabIndex = 10;
             // 
-            // gbUsuario
-            // 
-            gbUsuario.BackColor = Color.Transparent;
-            gbUsuario.Controls.Add(rbCliente);
-            gbUsuario.Controls.Add(rbVendedor);
-            gbUsuario.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
-            gbUsuario.Location = new Point(429, 349);
-            gbUsuario.Name = "gbUsuario";
-            gbUsuario.Size = new Size(377, 69);
-            gbUsuario.TabIndex = 12;
-            gbUsuario.TabStop = false;
-            gbUsuario.Text = "Tipo de Usuario";
-            // 
-            // rbCliente
-            // 
-            rbCliente.AutoSize = true;
-            rbCliente.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            rbCliente.Location = new Point(220, 38);
-            rbCliente.Name = "rbCliente";
-            rbCliente.Size = new Size(85, 24);
-            rbCliente.TabIndex = 1;
-            rbCliente.TabStop = true;
-            rbCliente.Text = "CLIENTE";
-            rbCliente.UseVisualStyleBackColor = true;
-            // 
-            // rbVendedor
-            // 
-            rbVendedor.AutoSize = true;
-            rbVendedor.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            rbVendedor.Location = new Point(46, 38);
-            rbVendedor.Name = "rbVendedor";
-            rbVendedor.Size = new Size(108, 24);
-            rbVendedor.TabIndex = 0;
-            rbVendedor.TabStop = true;
-            rbVendedor.Text = "VENDEDOR";
-            rbVendedor.UseVisualStyleBackColor = true;
-            // 
             // label3
             // 
             label3.AutoSize = true;
             label3.BackColor = Color.Transparent;
             label3.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            label3.Location = new Point(530, 144);
+            label3.Location = new Point(543, 138);
             label3.Name = "label3";
             label3.Size = new Size(138, 28);
             label3.TabIndex = 13;
@@ -188,6 +150,32 @@
             pictureBox2.TabIndex = 14;
             pictureBox2.TabStop = false;
             // 
+            // btnVendedor
+            // 
+            btnVendedor.BackColor = Color.LightGray;
+            btnVendedor.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            btnVendedor.ForeColor = Color.DimGray;
+            btnVendedor.Location = new Point(441, 376);
+            btnVendedor.Name = "btnVendedor";
+            btnVendedor.Size = new Size(159, 29);
+            btnVendedor.TabIndex = 15;
+            btnVendedor.Text = "Rellenar Vendedor";
+            btnVendedor.UseVisualStyleBackColor = false;
+            btnVendedor.Click += btnVendedor_Click;
+            // 
+            // btnCliente
+            // 
+            btnCliente.BackColor = Color.LightGray;
+            btnCliente.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            btnCliente.ForeColor = Color.DimGray;
+            btnCliente.Location = new Point(638, 376);
+            btnCliente.Name = "btnCliente";
+            btnCliente.Size = new Size(155, 29);
+            btnCliente.TabIndex = 16;
+            btnCliente.Text = "Rellenar cliente";
+            btnCliente.UseVisualStyleBackColor = false;
+            btnCliente.Click += btnCliente_Click;
+            // 
             // FrmLogueo
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -195,9 +183,10 @@
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Center;
             ClientSize = new Size(831, 537);
+            Controls.Add(btnCliente);
+            Controls.Add(btnVendedor);
             Controls.Add(pictureBox2);
             Controls.Add(label3);
-            Controls.Add(gbUsuario);
             Controls.Add(lbCorreo);
             Controls.Add(btnLoguearse);
             Controls.Add(chBContraseña);
@@ -210,9 +199,8 @@
             Name = "FrmLogueo";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Iniciar Sesión";
+            FormClosing += FrmLogueo_FormClosing;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
-            gbUsuario.ResumeLayout(false);
-            gbUsuario.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -228,10 +216,9 @@
         private CheckBox chBContraseña;
         private Button btnLoguearse;
         private Label lbCorreo;
-        private GroupBox gbUsuario;
-        private RadioButton rbCliente;
-        private RadioButton rbVendedor;
         private Label label3;
         private PictureBox pictureBox2;
+        private Button btnVendedor;
+        private Button btnCliente;
     }
 }

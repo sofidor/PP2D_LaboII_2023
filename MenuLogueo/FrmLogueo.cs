@@ -6,53 +6,49 @@ namespace MenuLogueo
 {
     public partial class FrmLogueo : Form
     {
-        private const string usuarioVerdad = "sofi@gmail.com";
-        private const string passVerdad = "abc123";
         public FrmLogueo()
         {
             InitializeComponent();
-            // Asignar valores hardcodeados a los campos de texto
-            txtMail.Text = usuarioVerdad;
-            txtPass.Text = passVerdad;
 
             this.MaximizeBox = false; //que no pueda maximizarse
             this.MinimizeBox = false; //que no pueda minimizarse 
             this.FormBorderStyle = FormBorderStyle.FixedDialog; //que no pueda agrandarse desde los lados
+            this.FormClosing += new FormClosingEventHandler(FrmLogueo_FormClosing);//cerrar form desde la cruz
+        }
+        private void btnVendedor_Click(object sender, EventArgs e)
+        {
+            // Establecer los valores predeterminados del correo electrónico y la contraseña para el vendedor
+            txtMail.Text = "vendedor@mail.com";
+            txtPass.Text = "clave123";
+        }
+        private void btnCliente_Click(object sender, EventArgs e)
+        {
+            txtMail.Text = "cliente@mail.com";
+            txtPass.Text = "clave123";
         }
         private void btnLoguearse_Click(object sender, EventArgs e)
         {
             string usuario = this.txtMail.Text;
             string pass = this.txtPass.Text;
 
-            string tipoDeUsuario = "";
-            if (rbVendedor.Checked)
+            // Verificar si el usuario es un vendedor o un cliente
+            if (txtMail.Text == "vendedor@mail.com" && txtPass.Text == "clave123")
             {
-                tipoDeUsuario = this.rbVendedor.Text;
+                // Si el usuario es un vendedor, abrir el formulario "Heladera"
+                FrmHeladera heladeraForm = new FrmHeladera();
+                heladeraForm.Show();
+                this.Hide();
             }
-            else if (rbCliente.Checked)
+            else if (txtMail.Text == "cliente@mail.com" && txtPass.Text == "clave123")
             {
-                tipoDeUsuario = this.rbCliente.Text;
-            }
-
-            if (usuario == usuarioVerdad && pass == passVerdad && (tipoDeUsuario == rbVendedor.Text || tipoDeUsuario == rbCliente.Text))
-            {
-                if (rbVendedor.Checked)
-                {
-                    // Redirigimos al vendedor a la ventana de la heladera
-                    FrmHeladera heladeraForm = new FrmHeladera();
-                    heladeraForm.Show();
-                }
-                else if (rbCliente.Checked)
-                {
-                    // Redirigimos al cliente a la ventana de la venta
-                    //VentaForm ventaForm = new VentaForm();
-                    // ventaForm.Show();
-                }
+                // Si el usuario es un cliente, abrir el formulario "Comprar"
+                FrmVenta ventaForm = new FrmVenta();
+                ventaForm.Show();
                 this.Hide();
             }
             else
             {
-                if (string.IsNullOrWhiteSpace(txtMail.Text) || string.IsNullOrWhiteSpace(txtPass.Text) || (!rbVendedor.Checked && !rbCliente.Checked))
+                if (string.IsNullOrWhiteSpace(txtMail.Text) || string.IsNullOrWhiteSpace(txtPass.Text))
                 {
                     // Mostrar mensaje de error
                     string mensaje = "Se deben completar los siguientes campos:";
@@ -64,11 +60,11 @@ namespace MenuLogueo
                     {
                         mensaje += "\n- Contraseña";
                     }
-                    if (!rbVendedor.Checked && !rbCliente.Checked)
-                    {
-                        mensaje += "\n- Tipo de usuario";
-                    }
                     MessageBox.Show(mensaje, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    MessageBox.Show("Usuario o contraseña incorrectos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -85,5 +81,14 @@ namespace MenuLogueo
             }
         }
 
+        private void FrmLogueo_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                // El usuario hizo clic en la cruz, cerrar la aplicación
+                e.Cancel = false; // Permitir el cierre
+                Application.Exit(); // Cerrar la aplicación
+            }
+        }
     }
 }
