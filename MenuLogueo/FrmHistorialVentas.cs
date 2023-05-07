@@ -20,7 +20,7 @@ namespace MenuLogueo
         public FrmHistorialVentas(List<Venta> ventasRealizadas)
         {
             InitializeComponent();
-            this.ventasRealizadas = ventasRealizadas;           
+            this.ventasRealizadas = ventasRealizadas;
             CargarDataGridView(ventasRealizadas);
 
             this.FormClosing += new FormClosingEventHandler(FrmHistorialVentas_FormClosing);//cerrar form desde la cruz
@@ -51,8 +51,8 @@ namespace MenuLogueo
 
         private void btnVolver_Click(object sender, EventArgs e)
         {
-            FrmAbrirHeladera abrirHeladera = new FrmAbrirHeladera();
-            abrirHeladera.Show();
+            FrmVenderProducto venderProducto = new();
+            venderProducto.Show();
             this.Hide();
         }
 

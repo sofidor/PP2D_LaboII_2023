@@ -20,12 +20,12 @@ namespace MenuLogueo
         public FrmVenderProducto()
         {
             InitializeComponent();
-            this.listaDeProductos = Carniceria.ObtenerProductos();
+            
             this.MaximizeBox = false; //que no pueda maximizarse
             this.MinimizeBox = false; //que no pueda minimizarse 
             this.FormBorderStyle = FormBorderStyle.FixedDialog; //que no pueda agrandarse desde los lados      
             this.FormClosing += new FormClosingEventHandler(FrmVenderProducto_FormClosing);//cerrar form desde la cruz
-            dgvProductos.CellBeginEdit += new DataGridViewCellCancelEventHandler(dgvProductos_CellBeginEdit);
+            dgvProductos.CellBeginEdit += new DataGridViewCellCancelEventHandler(dgvProductos_CellBeginEdit);            
         }
 
         public void CargarDataGridView(List<Producto> listaDeProductos)
@@ -38,11 +38,14 @@ namespace MenuLogueo
 
         private void FrmVenderProducto_Load(object sender, EventArgs e)
         {
-            // Inicializar el ComboBox con las opciones 
-            cbClientes.Items.Add("Lionel Martinez");
-            cbClientes.Items.Add("Daniela Fernandez");
-            cbClientes.Items.Add("Juan Ignacio Gomez");
-            cbClientes.Items.Add("Jazmin Serna");
+            // Obtener la lista de clientes
+            List<Cliente> clientes = Carniceria.ObtenerClientes();
+
+            // Agregar los nombres de los clientes al ComboBox
+            foreach (Cliente cliente in clientes)
+            {
+                cbClientes.Items.Add(cliente.NombreCompleto);
+            }
 
             CargarDataGridView(Carniceria.ObtenerProductos());
         }
@@ -81,10 +84,13 @@ namespace MenuLogueo
 
             // Actualizar la cantidad seleccionada del producto
             producto.CantidadSeleccionada = Convert.ToInt32(row.Cells["cantidad"].Value);
-        }
+        }     
 
         private void btnVender_Click(object sender, EventArgs e)
         {
+            DialogResult confirmarVenta;           
+            List<Producto> productosVendidos = new List<Producto>(); // Crear una nueva lista para almacenar los productos vendidos
+            List<Cliente> clienteAux = new List<Cliente>();
 
             // Verificar que se ha seleccionado un cliente
             if (cbClientes.SelectedItem == null)
@@ -100,57 +106,66 @@ namespace MenuLogueo
             {
                 MessageBox.Show("Por favor, seleccione al menos un producto para la venta.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
-            }
+            }          
 
-            // Disminuir el stock de los productos seleccionados
-            foreach (DataGridViewRow row in dgvProductos.SelectedRows)
-            {
-                int rowIndex = row.Index;
-                Producto producto = Carniceria.ObtenerProductos()[rowIndex];
-
-                // Verificar si hay suficiente stock disponible
-                if (producto.StockDisponible == 0)
+            // Mostrar mensaje de confirmación
+            confirmarVenta = MessageBox.Show("¿Desea confirmar la compra?", "Confirmar compra", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (confirmarVenta == DialogResult.Yes) {
+                // Disminuir el stock de los productos seleccionados
+                foreach (DataGridViewRow row in dgvProductos.SelectedRows)
                 {
-                    MessageBox.Show("No hay suficiente stock del producto seleccionado.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
+                    int rowIndex = row.Index;
+                    Producto producto = Carniceria.ObtenerProductos()[rowIndex];
+
+                    // Verificar si hay suficiente stock disponible
+                    if (producto.StockDisponible == 0)
+                    {
+                        MessageBox.Show("No hay suficiente stock del producto seleccionado.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    // Verificar si se intenta comprar más cantidad de la disponible en stock
+                    int cantidadSeleccionada = Convert.ToInt32(row.Cells["Cantidad"].Value);
+                    if (cantidadSeleccionada > producto.StockDisponible)
+                    {
+                        MessageBox.Show("No hay suficiente stock del producto seleccionado para la cantidad deseada.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                    // Verificar si la cantidad seleccionada es mayor a cero
+                    if (cantidadSeleccionada <= 0)
+                    {
+                        MessageBox.Show("La cantidad seleccionada del producto debe ser mayor a cero.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    // Actualizar el objeto Producto en la lista
+                    producto.CantidadSeleccionada = cantidadSeleccionada;
+                    producto.StockDisponible -= cantidadSeleccionada;
+
+                    // Actualizar la celda de StockDisponible en el DataGridView
+                    DataGridViewCell stockCell = row.Cells["StockDisponible"];
+                    stockCell.Value = producto.StockDisponible;
+
+                    // Agregar el producto a la lista de productos comprados
+                    productosVendidos.Add(producto);
                 }
+               
+                // Crear un nuevo objeto Venta para el producto vendido y agregarlo a la lista de ventas
+                Venta venta = new Venta(productosVendidos);
+                Carniceria.CargarVenta(venta);
+                // Generar el recibo y mostrarlo en una ventana nueva
 
-                // Actualizar el objeto Producto en la lista
-                producto.CantidadSeleccionada = Convert.ToInt32(row.Cells["cantidad"].Value);
-                producto.StockDisponible -= producto.CantidadSeleccionada;
+                // Obtener el cliente seleccionado del ComboBox
+                string clienteSeleccionado = cbClientes.SelectedItem.ToString();
 
-                // Actualizar la celda de StockDisponible en el DataGridView
-                DataGridViewCell stockCell = row.Cells["StockDisponible"];
-                stockCell.Value = producto.StockDisponible;
+                // Crear una instancia del formulario FrmFacturaDueño y pasar el cliente seleccionado
+                FrmFacturaDueño frmFacturaDueño = new FrmFacturaDueño(productosVendidos, clienteSeleccionado);
+                frmFacturaDueño.Show();
             }
-            /*
-            // Verificar que haya suficiente stock disponible para todos los productos seleccionados
-            List<string> productosSinStock = new List<string>(); // lista para almacenar los nombres de los productos sin stock suficiente
-            foreach (Producto producto in productosSeleccionados)
+            else
             {
-                if (producto.StockDisponible == 0)
-                {
-                    productosSinStock.Add(producto.NombreProducto); // agregar el nombre del producto sin stock a la lista
-                }
-            }
-
-            if (productosSinStock.Count > 0)
-            {
-                string mensaje = "Los siguientes productos no tienen suficiente stock: " + string.Join(", ", productosSinStock);
-                MessageBox.Show(mensaje, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }*/
-            // Crear un nuevo objeto Venta para el producto vendido y agregarlo a la lista de ventas
-            Venta venta = new Venta(productosSeleccionados);
-            Carniceria.CargarVenta(venta);
-            // Generar el recibo y mostrarlo en una ventana nueva
-            
-            // Obtener el cliente seleccionado del ComboBox
-            Cliente clienteSeleccionado = cbClientes.SelectedItem as Cliente;
-
-            // Crear una instancia del formulario FrmFacturaDueño y pasar el cliente seleccionado
-            FrmFacturaDueño frmFacturaDueño = new FrmFacturaDueño(productosSeleccionados, clienteSeleccionado);
-            frmFacturaDueño.Show();
+                MessageBox.Show("Operación cancelada.", "Cancelado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }         
         }
 
         private void dgvProductos_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
@@ -175,6 +190,7 @@ namespace MenuLogueo
         {
             FrmHistorialVentas recibo = new FrmHistorialVentas(ventas);
             recibo.Show();
+            this.Hide();
         }
 
         private void FrmVenderProducto_FormClosing(object sender, FormClosingEventArgs e)

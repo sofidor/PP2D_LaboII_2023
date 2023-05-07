@@ -13,10 +13,10 @@ namespace MenuLogueo
 {
     public partial class FrmFacturaDueño : Form
     {
-        private Cliente clienteSeleccionado;
+        private string clienteSeleccionado;
         List<Producto> productosSeleccionadosDueño;
 
-        public FrmFacturaDueño(List<Producto> productosSeleccionadosDueño, Cliente clienteSeleccionado)
+        public FrmFacturaDueño(List<Producto> productosSeleccionadosDueño, string clienteSeleccionado)
         {
             InitializeComponent();
             this.productosSeleccionadosDueño = productosSeleccionadosDueño;
@@ -25,7 +25,7 @@ namespace MenuLogueo
 
             this.MaximizeBox = false; //que no pueda maximizarse
             this.MinimizeBox = false; //que no pueda minimizarse 
-            this.FormBorderStyle = FormBorderStyle.FixedDialog; //que no pueda agrandarse desde los lados   
+            this.FormBorderStyle = FormBorderStyle.FixedDialog; //que no pueda agrandarse desde los lados         
         }
 
         public void CargarDataGridView(List<Producto> listaDeProductos)
@@ -41,8 +41,14 @@ namespace MenuLogueo
             // Mostrar el cliente seleccionado
             if (clienteSeleccionado != null)
             {
-                lbClienteSeleccionado.Text = clienteSeleccionado.NombreCompleto;
+                lbClienteSeleccionado.Text = clienteSeleccionado;
             }
+
+            // Obtener la fecha actual del sistema
+            DateTime fechaActual = DateTime.Now;
+
+            // Asignar la fecha al texto del label
+            lbFechaActual.Text = fechaActual.ToString("dd/MM/yyyy");
         }
     }
 }

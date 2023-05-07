@@ -39,6 +39,12 @@ namespace MenuLogueo
         {
             // Mostrar el monto total
             lbTotal.Text = "Monto total: $" + montoTotal.ToString("0.00");
+
+            // Obtener la fecha actual del sistema
+            DateTime fechaActual = DateTime.Now;
+
+            // Asignar la fecha al texto del label
+            lbFechaActual.Text = fechaActual.ToString("dd/MM/yyyy");
         }
     }
 }

@@ -14,7 +14,8 @@ namespace BibliotecaDeClases
 
         static Carniceria()
         {                  
-            CargarProductos();           
+            CargarProductos();
+            CargarClientes();
         }
 
         private static void CargarProductos()
@@ -37,7 +38,7 @@ namespace BibliotecaDeClases
             listaDeProductos.Add(new Producto("Medallones", "pollo", 60, 1100, 0));
         }
 
-        private static void CargarClientes()
+        public static void CargarClientes()
         {
             listaDeClientes.Add(new Cliente("lionelMartinez@gmail.com","abc123","Lionel Martinez", 85000, eMetodoPago.MercadoPago));
             listaDeClientes.Add(new Cliente("daniFernandez@gmail.com","dfg234","Daniela Fernandez", 160000, eMetodoPago.Efectivo));
@@ -48,6 +49,11 @@ namespace BibliotecaDeClases
         public static List<Producto> ObtenerProductos()
         {
             return listaDeProductos;
+        }
+
+        public static List<Cliente> ObtenerClientes()
+        {
+            return listaDeClientes;
         }
 
         public static void AgregarProducto(string nombre, string tipo, int stock, double precio,int cantidadSeleccionada)
@@ -83,6 +89,8 @@ namespace BibliotecaDeClases
         {
             listaVentas.Add(venta);
         }
+
+
 
     }
 }

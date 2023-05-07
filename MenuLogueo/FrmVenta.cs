@@ -16,17 +16,19 @@ namespace MenuLogueo
     {
         List<Producto> productosSeleccionados = new List<Producto>();
         List<Producto> listaDeProductos;
-        List<Venta> ventas = new List<Venta>();
+        List<Venta> ventas = new List<Venta>();       
+        List<Producto> productosComprados = new List<Producto>();  // Crear una nueva lista para almacenar los productos comprados
         public FrmVenta()
         {
             InitializeComponent();
-            this.listaDeProductos = Carniceria.ObtenerProductos();
+          
             this.MaximizeBox = false; //que no pueda maximizarse
             this.MinimizeBox = false; //que no pueda minimizarse 
             this.FormBorderStyle = FormBorderStyle.FixedDialog; //que no pueda agrandarse desde los lados  
 
             this.FormClosing += new FormClosingEventHandler(FrmVenta_FormClosing);//cerrar form desde la cruz
             dgvProductos.CellBeginEdit += new DataGridViewCellCancelEventHandler(dgvProductos_CellBeginEdit); //editar la celda cantidad
+           
         }
 
         public void CargarDataGridView(List<Producto> listaDeProductos)
@@ -39,6 +41,8 @@ namespace MenuLogueo
 
         private void FrmVenta_Load(object sender, EventArgs e)
         {
+            CargarDataGridView(Carniceria.ObtenerProductos());
+
             // Inicializar el ComboBox con las opciones 
             cmbFormaDePago.Items.Add("Tarjeta de crédito");
             cmbFormaDePago.Items.Add("Tarjeta de debito");
@@ -53,9 +57,7 @@ namespace MenuLogueo
             cmbTipoDeCorte.Items.Add("pollo");
             cmbTipoDeCorte.Items.Add("mostrar todo");
 
-            cmbTipoDeCorte.SelectedIndex = 0;
-
-            CargarDataGridView(Carniceria.ObtenerProductos());
+            cmbTipoDeCorte.SelectedIndex = 0;           
         }
 
         private void dgvProductos_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
@@ -107,12 +109,20 @@ namespace MenuLogueo
                 producto.CantidadSeleccionada = Convert.ToInt32(row.Cells["Cantidad"].Value);
             }
         }
+     
         private double CalcularMontoTotal()
         {
             double montoTotal = 0;
-            foreach (Producto producto in productosSeleccionados)
+            foreach (DataGridViewRow row in dgvProductos.Rows)
             {
-                montoTotal += producto.PrecioPorKilo * producto.CantidadSeleccionada;
+                bool isSelected = row.Selected;
+                int cantidadSeleccionada = Convert.ToInt32(row.Cells["Cantidad"].Value);
+                double precioPorKilo = Convert.ToDouble(row.Cells["PrecioPorKilo"].Value);
+
+                if (isSelected && cantidadSeleccionada > 0)
+                {
+                    montoTotal += precioPorKilo * cantidadSeleccionada;
+                }
             }
             return montoTotal;
         }
@@ -120,8 +130,8 @@ namespace MenuLogueo
         private void btnComprar_Click(object sender, EventArgs e)
         {
             double montoTotal = CalcularMontoTotal();
-            DialogResult confirmarVenta;
-
+            DialogResult confirmarVenta;            
+          
             // Obtener el monto máximo ingresado por el cliente
             if (!double.TryParse(txtPresupuesoMaximo.Text, out double montoMaximo))
             {
@@ -140,7 +150,6 @@ namespace MenuLogueo
             confirmarVenta = MessageBox.Show("¿Desea confirmar la compra?", "Confirmar compra", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (confirmarVenta == DialogResult.Yes)
             {
-                // Disminuir el stock de los productos seleccionados
                 foreach (DataGridViewRow row in dgvProductos.SelectedRows)
                 {
                     int rowIndex = row.Index;
@@ -161,21 +170,37 @@ namespace MenuLogueo
                         return;
                     }
 
-                    // Actualizar el objeto Producto en la lista
-                    producto.CantidadSeleccionada = cantidadSeleccionada;
+                    // Verificar que el precio total no supere el monto máximo ingresado por el cliente
+                    if (montoTotal > montoMaximo)
+                    {
+                        MessageBox.Show("El precio total de los productos seleccionados supera el monto máximo ingresado por el cliente.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    // Verificar si la cantidad seleccionada es mayor a cero
+                    if (cantidadSeleccionada <= 0)
+                    {
+                        MessageBox.Show("La cantidad seleccionada del producto debe ser mayor a cero.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                    // Restar la cantidad seleccionada del stock disponible
                     producto.StockDisponible -= cantidadSeleccionada;
 
+                    // Actualizar la cantidad seleccionada del producto
+                    producto.CantidadSeleccionada = cantidadSeleccionada;
                     // Actualizar la celda de StockDisponible en el DataGridView
                     DataGridViewCell stockCell = row.Cells["StockDisponible"];
                     stockCell.Value = producto.StockDisponible;
+
+                    // Agregar el producto a la lista de productos comprados
+                    productosComprados.Add(producto);
                 }
 
-                // Verificar que el precio total no supere el monto máximo ingresado por el cliente
-                if (montoTotal > montoMaximo) //(double)
-                {
-                    MessageBox.Show("El precio total de los productos seleccionados supera el monto máximo ingresado por el cliente.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
+                // Restarle el monto gastado
+                double nuevoMontoMaximo = montoMaximo - montoTotal;
+
+                // Actualizar el campo con el nuevo valor
+                txtPresupuesoMaximo.Text = nuevoMontoMaximo.ToString();
 
                 // Verificar si se eligió la opción "Tarjeta de crédito"
                 if (cmbFormaDePago.SelectedItem.ToString() == "Tarjeta de crédito")
@@ -185,12 +210,16 @@ namespace MenuLogueo
                     montoTotal += recargo;
                 }
                 // Crear un nuevo objeto Venta para el producto vendido y agregarlo a la lista de ventas
-                Venta venta = new Venta(productosSeleccionados);
+                Venta venta = new Venta(productosComprados);
                 Carniceria.CargarVenta(venta);
-                              
+
                 // Mostrar la factura
-                FrmFacturaCliente facturaForm = new FrmFacturaCliente(productosSeleccionados, montoTotal);
+                FrmFacturaCliente facturaForm = new FrmFacturaCliente(productosComprados, montoTotal);
                 facturaForm.Show();
+            }
+            else
+            {
+                MessageBox.Show("Operación cancelada.", "Cancelado", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
 
         }
@@ -232,5 +261,7 @@ namespace MenuLogueo
                 Application.Exit(); // Cerrar la aplicación
             }
         }
+
+       
     }
 }

@@ -95,7 +95,7 @@
             dgvProductos.Size = new Size(720, 383);
             dgvProductos.TabIndex = 1;
             dgvProductos.CellBeginEdit += dgvProductos_CellBeginEdit;
-            dgvProductos.CellClick += dgvProductos_CellClick;
+            dgvProductos.CellClick += dgvProductos_CellClick;           
             // 
             // nombreProducto
             // 
@@ -280,6 +280,7 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
+            BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(751, 801);
             Controls.Add(pictureBox2);
             Controls.Add(cmbTipoDeCorte);

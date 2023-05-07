@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmFacturaCliente));
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             label2 = new Label();
             label1 = new Label();
             pictureBox1 = new PictureBox();
@@ -42,6 +43,7 @@
             lbFecha = new Label();
             lbConsumidor = new Label();
             lbTotal = new Label();
+            lbFechaActual = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvProductos).BeginInit();
             SuspendLayout();
@@ -81,6 +83,14 @@
             // dgvProductos
             // 
             dgvProductos.AllowUserToDeleteRows = false;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = SystemColors.Control;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dgvProductos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvProductos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvProductos.Columns.AddRange(new DataGridViewColumn[] { nombreProducto, tipoDeAnimal, precioPorKilo, Cantidad });
             dgvProductos.Location = new Point(12, 170);
@@ -127,7 +137,7 @@
             // 
             lbCliente.AutoSize = true;
             lbCliente.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            lbCliente.Location = new Point(35, 128);
+            lbCliente.Location = new Point(27, 128);
             lbCliente.Name = "lbCliente";
             lbCliente.Size = new Size(94, 28);
             lbCliente.TabIndex = 13;
@@ -145,18 +155,18 @@
             // lbFecha
             // 
             lbFecha.AutoSize = true;
-            lbFecha.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            lbFecha.Location = new Point(412, 22);
+            lbFecha.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
+            lbFecha.Location = new Point(401, 62);
             lbFecha.Name = "lbFecha";
-            lbFecha.Size = new Size(199, 28);
+            lbFecha.Size = new Size(67, 23);
             lbFecha.TabIndex = 18;
-            lbFecha.Text = "FECHA: 07/05/2023";
+            lbFecha.Text = "FECHA:";
             // 
             // lbConsumidor
             // 
             lbConsumidor.AutoSize = true;
             lbConsumidor.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            lbConsumidor.Location = new Point(449, 64);
+            lbConsumidor.Location = new Point(419, 97);
             lbConsumidor.Name = "lbConsumidor";
             lbConsumidor.Size = new Size(129, 20);
             lbConsumidor.TabIndex = 19;
@@ -172,12 +182,23 @@
             lbTotal.TabIndex = 21;
             lbTotal.Text = "Monto Total:";
             // 
+            // lbFechaActual
+            // 
+            lbFechaActual.AutoSize = true;
+            lbFechaActual.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
+            lbFechaActual.Location = new Point(477, 62);
+            lbFechaActual.Name = "lbFechaActual";
+            lbFechaActual.Size = new Size(100, 23);
+            lbFechaActual.TabIndex = 22;
+            lbFechaActual.Text = "fechaActual";
+            // 
             // FrmFacturaCliente
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.White;
-            ClientSize = new Size(629, 640);
+            BackColor = Color.OldLace;
+            ClientSize = new Size(627, 614);
+            Controls.Add(lbFechaActual);
             Controls.Add(lbTotal);
             Controls.Add(lbConsumidor);
             Controls.Add(lbFecha);
@@ -214,5 +235,6 @@
         private DataGridViewTextBoxColumn tipoDeAnimal;
         private DataGridViewTextBoxColumn precioPorKilo;
         private DataGridViewTextBoxColumn Cantidad;
+        private Label lbFechaActual;
     }
 }
