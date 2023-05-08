@@ -1,6 +1,5 @@
 ﻿namespace BibliotecaDeClases
-{
-   
+{   
     public class Producto
     {
         public string nombreProducto;
@@ -52,16 +51,7 @@
         {
             get { return this.cantidadSeleccionada; }
             set { this.cantidadSeleccionada = value; }
-        }
-
-        public enum eAnimales
-        {
-            Vaca,
-            Cerdo,
-            Liebre,
-            Pollo,
-            Conejo
-        }
+        }       
 
     }
 }

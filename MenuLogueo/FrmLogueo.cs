@@ -1,6 +1,7 @@
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
+using System.Media;
 
 namespace MenuLogueo
 {
@@ -30,6 +31,12 @@ namespace MenuLogueo
         {
             string usuario = this.txtMail.Text;
             string pass = this.txtPass.Text;
+
+            SoundPlayer sonidoLogueo= new SoundPlayer(); //almacena el audio 
+
+            sonidoLogueo.SoundLocation = "C:/Users/sofia/Downloads/SonidoInicioDeSesion.wav";
+            sonidoLogueo.Play();
+
 
             // Verificar si el usuario es un vendedor o un cliente
             if (txtMail.Text == "vendedor@mail.com" && txtPass.Text == "clave123")

@@ -1,6 +1,6 @@
 ﻿namespace MenuLogueo
 {
-    partial class FrmFacturaCliente
+    partial class FrmFactura
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmFacturaCliente));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmFactura));
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             label2 = new Label();
             label1 = new Label();
@@ -44,6 +44,7 @@
             lbConsumidor = new Label();
             lbTotal = new Label();
             lbFechaActual = new Label();
+            lbNombre = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvProductos).BeginInit();
             SuspendLayout();
@@ -136,12 +137,12 @@
             // lbCliente
             // 
             lbCliente.AutoSize = true;
-            lbCliente.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            lbCliente.Location = new Point(27, 128);
+            lbCliente.Font = new Font("Segoe UI Semibold", 10.8F, FontStyle.Bold, GraphicsUnit.Point);
+            lbCliente.Location = new Point(112, 131);
             lbCliente.Name = "lbCliente";
-            lbCliente.Size = new Size(94, 28);
+            lbCliente.Size = new Size(78, 25);
             lbCliente.TabIndex = 13;
-            lbCliente.Text = "Nombre:";
+            lbCliente.Text = "nombre";
             // 
             // lbMontoTotal
             // 
@@ -192,12 +193,23 @@
             lbFechaActual.TabIndex = 22;
             lbFechaActual.Text = "fechaActual";
             // 
+            // lbNombre
+            // 
+            lbNombre.AutoSize = true;
+            lbNombre.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            lbNombre.Location = new Point(12, 128);
+            lbNombre.Name = "lbNombre";
+            lbNombre.Size = new Size(94, 28);
+            lbNombre.TabIndex = 23;
+            lbNombre.Text = "Nombre:";
+            // 
             // FrmFacturaCliente
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.OldLace;
             ClientSize = new Size(627, 614);
+            Controls.Add(lbNombre);
             Controls.Add(lbFechaActual);
             Controls.Add(lbTotal);
             Controls.Add(lbConsumidor);
@@ -236,5 +248,6 @@
         private DataGridViewTextBoxColumn precioPorKilo;
         private DataGridViewTextBoxColumn Cantidad;
         private Label lbFechaActual;
+        private Label lbNombre;
     }
 }

@@ -14,9 +14,7 @@ namespace MenuLogueo
 {
     public partial class FrmHistorialVentas : Form
     {
-
         public List<Venta> ventasRealizadas = new List<Venta>();
-
         public FrmHistorialVentas(List<Venta> ventasRealizadas)
         {
             InitializeComponent();
@@ -43,7 +41,8 @@ namespace MenuLogueo
                         producto.NombreProducto,
                         producto.TipoDeAnimal,
                         producto.PrecioPorKilo,
-                        producto.CantidadSeleccionada
+                        producto.CantidadSeleccionada,
+                        venta.clienteCompra
                     );
                 }
             }
@@ -66,5 +65,6 @@ namespace MenuLogueo
                 Application.Exit(); // Cerrar la aplicación
             }
         }
+
     }
 }

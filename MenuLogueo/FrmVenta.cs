@@ -16,19 +16,20 @@ namespace MenuLogueo
     {
         List<Producto> productosSeleccionados = new List<Producto>();
         List<Producto> listaDeProductos;
-        List<Venta> ventas = new List<Venta>();       
+        List<Venta> ventas = new List<Venta>();
         List<Producto> productosComprados = new List<Producto>();  // Crear una nueva lista para almacenar los productos comprados
         public FrmVenta()
         {
             InitializeComponent();
-          
+            listaDeProductos = Carniceria.ObtenerProductos();
+            CargarDataGridView(listaDeProductos);
             this.MaximizeBox = false; //que no pueda maximizarse
             this.MinimizeBox = false; //que no pueda minimizarse 
             this.FormBorderStyle = FormBorderStyle.FixedDialog; //que no pueda agrandarse desde los lados  
 
             this.FormClosing += new FormClosingEventHandler(FrmVenta_FormClosing);//cerrar form desde la cruz
             dgvProductos.CellBeginEdit += new DataGridViewCellCancelEventHandler(dgvProductos_CellBeginEdit); //editar la celda cantidad
-           
+
         }
 
         public void CargarDataGridView(List<Producto> listaDeProductos)
@@ -55,9 +56,9 @@ namespace MenuLogueo
             cmbTipoDeCorte.Items.Add("vaca");
             cmbTipoDeCorte.Items.Add("cerdo");
             cmbTipoDeCorte.Items.Add("pollo");
-            cmbTipoDeCorte.Items.Add("mostrar todo");
+            cmbTipoDeCorte.Items.Add("Mostrar todo");
 
-            cmbTipoDeCorte.SelectedIndex = 0;           
+            cmbTipoDeCorte.SelectedIndex = 3;
         }
 
         private void dgvProductos_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
@@ -109,7 +110,7 @@ namespace MenuLogueo
                 producto.CantidadSeleccionada = Convert.ToInt32(row.Cells["Cantidad"].Value);
             }
         }
-     
+
         private double CalcularMontoTotal()
         {
             double montoTotal = 0;
@@ -130,10 +131,18 @@ namespace MenuLogueo
         private void btnComprar_Click(object sender, EventArgs e)
         {
             double montoTotal = CalcularMontoTotal();
-            DialogResult confirmarVenta;            
-          
+            string nombrecliente = txtNombreCliente.Text;
+            DialogResult confirmarVenta;
+
+            if (string.IsNullOrEmpty(nombrecliente))
+            {
+                MessageBox.Show("Por favor, ingrese un nombre válido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+
             // Obtener el monto máximo ingresado por el cliente
-            if (!double.TryParse(txtPresupuesoMaximo.Text, out double montoMaximo))
+            if (!double.TryParse(txtMontoIngresado.Text, out double montoMaximo))
             {
                 MessageBox.Show("Por favor, ingrese un valor numérico válido para el monto máximo.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -200,7 +209,7 @@ namespace MenuLogueo
                 double nuevoMontoMaximo = montoMaximo - montoTotal;
 
                 // Actualizar el campo con el nuevo valor
-                txtPresupuesoMaximo.Text = nuevoMontoMaximo.ToString();
+                txtNombreCliente.Text = nuevoMontoMaximo.ToString();
 
                 // Verificar si se eligió la opción "Tarjeta de crédito"
                 if (cmbFormaDePago.SelectedItem.ToString() == "Tarjeta de crédito")
@@ -210,11 +219,11 @@ namespace MenuLogueo
                     montoTotal += recargo;
                 }
                 // Crear un nuevo objeto Venta para el producto vendido y agregarlo a la lista de ventas
-                Venta venta = new Venta(productosComprados);
+                Venta venta = new Venta(productosComprados, nombrecliente);
                 Carniceria.CargarVenta(venta);
 
                 // Mostrar la factura
-                FrmFacturaCliente facturaForm = new FrmFacturaCliente(productosComprados, montoTotal);
+                FrmFactura facturaForm = new FrmFactura(productosComprados, montoTotal, nombrecliente);
                 facturaForm.Show();
             }
             else
@@ -244,7 +253,7 @@ namespace MenuLogueo
             CargarDataGridView(productosFiltrados);
 
             // Si la opción seleccionada es "mostrar todo", cargar la lista original y salir del método
-            if (cmbTipoDeCorte.SelectedItem.ToString() == "mostrar todo")
+            if (cmbTipoDeCorte.SelectedItem.ToString() == "Mostrar todo")
             {
                 CargarDataGridView(listaDeProductos);
                 return;
@@ -262,6 +271,6 @@ namespace MenuLogueo
             }
         }
 
-       
+
     }
 }
