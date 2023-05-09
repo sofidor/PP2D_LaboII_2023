@@ -181,11 +181,11 @@
             // 
             lbTotal.AutoSize = true;
             lbTotal.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            lbTotal.Location = new Point(327, 596);
+            lbTotal.Location = new Point(339, 596);
             lbTotal.Name = "lbTotal";
-            lbTotal.Size = new Size(64, 28);
+            lbTotal.Size = new Size(115, 28);
             lbTotal.TabIndex = 21;
-            lbTotal.Text = "Total:";
+            lbTotal.Text = "Total Final:";
             // 
             // lbFechaActual
             // 
@@ -211,11 +211,11 @@
             // 
             lbTotalFinal.AutoSize = true;
             lbTotalFinal.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            lbTotalFinal.Location = new Point(327, 624);
+            lbTotalFinal.Location = new Point(339, 625);
             lbTotalFinal.Name = "lbTotalFinal";
-            lbTotalFinal.Size = new Size(115, 28);
+            lbTotalFinal.Size = new Size(64, 28);
             lbTotalFinal.TabIndex = 24;
-            lbTotalFinal.Text = "Total Final:";
+            lbTotalFinal.Text = "Total:";
             // 
             // lbTipoDePago
             // 

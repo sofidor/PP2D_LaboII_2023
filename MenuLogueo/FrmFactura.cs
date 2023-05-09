@@ -50,8 +50,8 @@ namespace MenuLogueo
             lbCliente.Text = nombreCliente;
             lbVendedor.Text = nombreVendedor;
             lbFormaDePago.Text = metodoDePago;
-            lbTotalFinal.Text = "Total: $" + montoTotal.ToString("0.00");
-            lbTotal.Text = "Total Final: $" + montoTotalFinal.ToString("0.00");
+            lbTotalFinal.Text = "Total Final: $" + montoTotal.ToString("0.00");
+            lbTotal.Text = "Total: $" + montoTotalFinal.ToString("0.00");
 
             // Obtener la fecha actual del sistema
             DateTime fechaActual = DateTime.Now;
