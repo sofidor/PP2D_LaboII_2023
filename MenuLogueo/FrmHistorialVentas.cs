@@ -25,14 +25,11 @@ namespace MenuLogueo
         }
 
         private void CargarDataGridView(List<Venta> ventasRealizadas)
-        {
-            // Limpiar el DataGridView
-            dgvProductos.Rows.Clear();
-
-            // Obtener la lista de ventas
+        {            
+            dgvProductos.Rows.Clear();//limpio el dgv            
             List<Venta> listaVentas = Carniceria.ObtenerVentas();
 
-            // Recorrer la lista de ventas y agregar los productos al DataGridView
+            //recorrer la lista de ventas y agregar los productos al DataGridView
             foreach (Venta venta in listaVentas)
             {
                 foreach (Producto producto in venta.ProductosVendidos)
@@ -57,12 +54,11 @@ namespace MenuLogueo
 
         private void FrmHistorialVentas_FormClosing(object sender, FormClosingEventArgs e)
         {
-
             if (e.CloseReason == CloseReason.UserClosing)
             {
-                // El usuario hizo clic en la cruz, cerrar la aplicación
-                e.Cancel = false; // Permitir el cierre
-                Application.Exit(); // Cerrar la aplicación
+                //si el usuario hizo clic en la cruz, cerrar la aplicación
+                e.Cancel = false; 
+                Application.Exit(); 
             }
         }
 

@@ -14,7 +14,7 @@ namespace MenuLogueo
 {
     public partial class FrmAbrirHeladera : Form
     {
-        int posicion;
+        int posicion; //almacena la posicion de la fila selec
         List<Producto> listaDeProductos;
         public FrmAbrirHeladera()
         {
@@ -39,7 +39,7 @@ namespace MenuLogueo
             CargarDataGridView();
         }
 
-        private void limpiar()
+        private void limpiar()//limpio los campos
         {
             txtProducto.Text = "";
             txtPrecio.Text = "";
@@ -47,84 +47,71 @@ namespace MenuLogueo
             txtStock.Text = "";
         }
         private void dgvProductos_CellClick_1(object sender, DataGridViewCellEventArgs e) //muestra detalles
-        {
-            // Obtener el índice de la fila seleccionada
-            int index = e.RowIndex;
+        {            
+            int index = e.RowIndex;//obtener el índice de la fila seleccionada
 
-            // Si se ha seleccionado una fila
             if (index >= 0)
             {
-                // Obtener los valores de las celdas y asignarlos a los TextBox correspondientes
+                //obtener los valores de las celdas y asignarlos a los TextBox correspondientes
                 DataGridViewRow selectedRow = dgvProductos.Rows[index];
 
-                // Si la celda seleccionada está vacía
+                //si la celda seleccionada está vacía
                 if (selectedRow.Cells[0].Value == null)
                 {
-                    // Habilitar los campos para ingresar un nuevo producto
+                    //habilitar los campos para ingresar un nuevo producto
                     txtProducto.Enabled = true;
                     txtDetalle.Enabled = true;
                     txtPrecio.Enabled = true;
                     txtStock.Enabled = true;
+                    
+                    limpiar();// limpiar los campos de texto
 
-                    // Limpiar los campos de texto
-                    txtProducto.Clear();
-                    txtDetalle.Clear();
-                    txtPrecio.Clear();
-                    txtStock.Clear();
-
-                    // Deshabilitar el botón de modificar
-                    btnModificar.Enabled = false;
+                    btnModificar.Enabled = false; //deshabilito
                     btnAgregar.Enabled = true;
 
                 }
-                else // Si la celda seleccionada contiene datos
+                else //si la celda seleccionada contiene datos
                 {
                     txtProducto.Text = selectedRow.Cells[0].Value.ToString();
                     txtDetalle.Text = selectedRow.Cells[1].Value.ToString();
                     txtStock.Text = selectedRow.Cells[2].Value.ToString();
                     txtPrecio.Text = selectedRow.Cells[3].Value.ToString();
+                    
+                    posicion = index;//guardar la posición de la fila seleccionada
 
-                    // Guardar la posición de la fila seleccionada
-                    posicion = index;
-
-                    // Habilitar el botón de modificar
                     btnModificar.Enabled = true;
-
                     btnAgregar.Enabled = false;
-
                 }
             }
         }
 
         private void btnModificar_Click(object sender, EventArgs e)
         {
-            // Obtener los nuevos valores de los controles de edición
+            //obtener los nuevos valores de los controles de edición
             string nuevoNombre = txtProducto.Text;
             string nuvoTipo = txtDetalle.Text;
             double nuevoPrecio = double.Parse(txtPrecio.Text);
             int nuevoStock = int.Parse(txtStock.Text);
 
-            // Obtener la fila seleccionada y el índice correspondiente
+            //obtener la fila seleccionada y el índice correspondiente
             DataGridViewRow filaSeleccionada = dgvProductos.CurrentRow;
             int indiceFilaSeleccionada = filaSeleccionada.Index;
 
-            // Actualizar los datos del producto en la lista
+            //actualizar los datos del producto en la lista
             Producto productoSeleccionado = listaDeProductos[indiceFilaSeleccionada];
             productoSeleccionado.NombreProducto = nuevoNombre;
             productoSeleccionado.TipoDeAnimal = nuvoTipo;
             productoSeleccionado.PrecioPorKilo = nuevoPrecio;
             productoSeleccionado.StockDisponible = nuevoStock;
 
-            // Actualizar los datos en el DataGridView
+            //actualizar los datos en el DataGridView
             filaSeleccionada.Cells["nombreProducto"].Value = nuevoNombre;
             filaSeleccionada.Cells["tipoDeAnimal"].Value = nuvoTipo;
             filaSeleccionada.Cells["precioPorKilo"].Value = nuevoPrecio;
             filaSeleccionada.Cells["stockDisponible"].Value = nuevoStock;
 
-            // Limpiar los controles de edición
-            limpiar();
-
-            // Deseleccionar la fila
+            //limpiar los controles de edición
+            limpiar();            
             dgvProductos.ClearSelection();
         }
 
@@ -139,18 +126,16 @@ namespace MenuLogueo
 
             if (!string.IsNullOrEmpty(producto) && !string.IsNullOrEmpty(tipo) && !string.IsNullOrEmpty(stock) && !string.IsNullOrEmpty(valor))
             {
-                // Agregar el nuevo producto a la lista de productos
+                //agregar el nuevo producto a la lista de productos
                 Carniceria.AgregarProducto(producto, tipo, int.Parse(stock), double.Parse(valor), 0);
 
-                // Agregar la nueva fila con el índice y los demás datos
+                //agregar la nueva fila con el índice y los demás datos
                 dgvProductos.Rows.Add(producto, tipo, stock, valor);
                 limpiar();
                 txtProducto.Focus();
 
-                btnModificar.Enabled = false;
-
-                // Deseleccionar la fila
-                dgvProductos.ClearSelection();
+                btnModificar.Enabled = false;                
+                dgvProductos.ClearSelection();//deseleccionar la fila
             }
             else
             {
@@ -159,19 +144,16 @@ namespace MenuLogueo
         }
         private void btnEliminar_Click(object sender, EventArgs e)
         {
-            // Obtener el índice de la fila seleccionada
+            //obtener el índice de la fila seleccionada
             int indiceFilaSeleccionada = dgvProductos.CurrentRow.Index;
 
-            // Eliminar el producto correspondiente de la lista de productos
+            //eliminar el producto de la lista
             Carniceria.EliminarProducto(indiceFilaSeleccionada);
 
-            // Eliminar la fila correspondiente del DataGridView
+            //eliminar la fila del DataGridView
             dgvProductos.Rows.RemoveAt(indiceFilaSeleccionada);
-
-            // Limpiar los controles de edición
-            limpiar();
-
-            // Deseleccionar la fila
+            
+            limpiar();           
             dgvProductos.ClearSelection();
         }
 
@@ -190,9 +172,7 @@ namespace MenuLogueo
                 e.Cancel = false; // Permitir el cierre
                 Application.Exit(); // Cerrar la aplicación
             }
-        }
-
-        
+        }       
 
     }
 }

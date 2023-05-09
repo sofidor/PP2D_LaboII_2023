@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BibliotecaDeClases
 {
-    public enum eMetodoPago
+    public enum eMetodoPago //lo pueden utilizar diferentes clases 
     {
         TarjetaDeCredito,
         Efectivo,
@@ -52,12 +52,14 @@ namespace BibliotecaDeClases
         {
             get { return metodoDePago; }
         }
+        /// <summary>
+        /// valida si un nombre contiene solo letras
+        /// </summary>
+        /// <param name="nombre">nombre que se valida</param>
+        /// <returns>retorna true si el nombre cumple o false si no lo hace</returns>
         public static bool ValidarNombre(string nombre)
-        {
-            // Expresión regular para validar que solo haya letras en el nombre
-            Regex regex = new Regex("^[a-zA-Z]+$");
-
-            // Comprobar si el nombre coincide con la expresión regular
+        {            
+            Regex regex = new Regex("^[a-zA-Z]+$");            
             return regex.IsMatch(nombre);
         }
     }

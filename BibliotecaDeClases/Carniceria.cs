@@ -14,7 +14,7 @@ namespace BibliotecaDeClases
 
         static Carniceria()
         {                  
-            CargarProductos();
+            CargarProductos(); //inicializo las listas
             CargarClientes();
         }
         /// <summary>
@@ -90,9 +90,9 @@ namespace BibliotecaDeClases
         {
             List<Producto> lista = new List<Producto>();
 
-            foreach (Producto item in listaDeProductos)
+            foreach (Producto item in listaDeProductos) //itero sobre cada producto
             {
-                if (item.TipoDeAnimal.Equals(tipoDeAnimal))
+                if (item.TipoDeAnimal.Equals(tipoDeAnimal)) //equals compara los valores de dos cadenas de texto
                 {
                     lista.Add(item);
                 }

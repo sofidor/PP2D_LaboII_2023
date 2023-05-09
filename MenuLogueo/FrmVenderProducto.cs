@@ -16,12 +16,10 @@ namespace MenuLogueo
     {
         List<Producto> productosSeleccionados = new List<Producto>();
         List<Producto> listaDeProductos;
-        List<Venta> ventas = new List<Venta>();
-        double montoMaximoCliente = 0;
+        List<Venta> ventas = new List<Venta>();      
         public FrmVenderProducto()
         {
             InitializeComponent();
-
             this.MaximizeBox = false; //que no pueda maximizarse
             this.MinimizeBox = false; //que no pueda minimizarse 
             this.FormBorderStyle = FormBorderStyle.FixedDialog; //que no pueda agrandarse desde los lados      
@@ -38,24 +36,16 @@ namespace MenuLogueo
         }
 
         private void FrmVenderProducto_Load(object sender, EventArgs e)
-        {
-            // Obtener la lista de clientes
+        {           
             List<Cliente> clientes = Carniceria.ObtenerClientes();
-
-            // Agregar los nombres de los clientes al ComboBox
+          
             foreach (Cliente cliente in clientes)
             {
-                cbClientes.Items.Add(cliente.NombreCompleto);
+                cbClientes.Items.Add(cliente.NombreCompleto); //agregar clientes al comboBox
             }
 
-            CargarDataGridView(Carniceria.ObtenerProductos());
-
-            // Verificar si hay clientes en el ComboBox
-            if (cbClientes.Items.Count > 0)
-            {
-                // Seleccionar el primer cliente de la lista por defecto
-                cbClientes.SelectedIndex = 3;
-            }
+            cbClientes.SelectedIndex = 3;
+            CargarDataGridView(Carniceria.ObtenerProductos());            
         }
         private void btnVolver_Click_1(object sender, EventArgs e)
         {
@@ -68,7 +58,7 @@ namespace MenuLogueo
         {
             DataGridViewRow row = this.dgvProductos.Rows[e.RowIndex];
 
-            // obtener el producto seleccionado
+            //obtener el producto seleccionado
             Producto producto = new Producto(
                  row.Cells["nombreProducto"].Value.ToString(),
                  row.Cells["tipoDeAnimal"].Value.ToString(),
@@ -95,7 +85,7 @@ namespace MenuLogueo
         private void btnVender_Click(object sender, EventArgs e)
         {
             DialogResult confirmarVenta;
-            Vendedor vendedor = new Vendedor("vendedor@gmail.com","clave123","Sergio Lopéz");
+            Vendedor vendedor = new Vendedor("sergioLopez@gmail.com","clave123","Sergio Lopéz");
             List<Producto> productosVendidos = new List<Producto>(); // Crear una nueva lista para almacenar los productos vendidos
             Cliente clienteSeleccionadoMonto = Carniceria.ObtenerClientes()[cbClientes.SelectedIndex];// retorna el cliente q le hago clic
             string montoCliente = clienteSeleccionadoMonto.MontoDisponible.ToString();
@@ -158,7 +148,10 @@ namespace MenuLogueo
                         MessageBox.Show("El valor total de los productos seleccionados supera el monto a gastar del cliente.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
-                    
+                    // Restarle el monto gastado
+                    double nuevoMontoMaximo = clienteSeleccionadoMonto.MontoDisponible - precioTotal;
+                    txtMontoCliente.Text = nuevoMontoMaximo.ToString();
+
                     producto.CantidadSeleccionada = cantidadSeleccionada;
                     producto.StockDisponible -= cantidadSeleccionada;
 
@@ -169,11 +162,7 @@ namespace MenuLogueo
                     // Agregar el producto a la lista de productos comprados
                     productosVendidos.Add(producto);
                 }
-                double precioFinal = precioTotal;
-                
-                // Restarle el monto gastado
-                double nuevoMontoMaximo = clienteSeleccionadoMonto.MontoDisponible - precioTotal;
-                txtMontoCliente.Text = nuevoMontoMaximo.ToString();
+                double precioFinal = precioTotal;               
 
                 // Verificar si el cliente tiene el tipo de pago "TarjetaDeCredito"
                 if (clienteSeleccionadoMonto.MetodoDePago == eMetodoPago.TarjetaDeCredito)
@@ -198,20 +187,16 @@ namespace MenuLogueo
         }
 
         private void dgvProductos_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
-        {
-            // Obtener la columna actual
-            DataGridViewColumn column = dgvProductos.Columns[e.ColumnIndex];
-
-            // Verificar si la columna es la columna "cantidad"
+        {            
+            DataGridViewColumn column = dgvProductos.Columns[e.ColumnIndex]; //obtengo columna
+            
             if (column.Name == "cantidad")
-            {
-                // Permitir la edición de la celda "cantidad"
-                e.Cancel = false;
+            {                
+                e.Cancel = false;//permitir la edición de la celda "cantidad"
             }
             else
-            {
-                // Cancelar la edición de cualquier otra celda
-                e.Cancel = true;
+            {                
+                e.Cancel = true;//cancelar la edición de cualquier otra celda
             }
         }
 
@@ -226,9 +211,9 @@ namespace MenuLogueo
         {
             if (e.CloseReason == CloseReason.UserClosing)
             {
-                // El usuario hizo clic en la cruz, cerrar la aplicación
-                e.Cancel = false; // Permitir el cierre
-                Application.Exit(); // Cerrar la aplicación
+                //si el usuario hizo clic en la cruz, cerrar la aplicación
+                e.Cancel = false; 
+                Application.Exit(); 
             }
         }
     }

@@ -28,7 +28,5 @@ namespace BibliotecaDeClases
             get { return clienteCompra; }
             set { this.clienteCompra = value; }
         }
-
-
     }
 }

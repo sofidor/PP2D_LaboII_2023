@@ -25,8 +25,7 @@ namespace MenuLogueo
             CargarDataGridView(listaDeProductos);
             this.MaximizeBox = false; //que no pueda maximizarse
             this.MinimizeBox = false; //que no pueda minimizarse 
-            this.FormBorderStyle = FormBorderStyle.FixedDialog; //que no pueda agrandarse desde los lados  
-
+            this.FormBorderStyle = FormBorderStyle.FixedDialog; //que no pueda agrandarse desde los lados
             this.FormClosing += new FormClosingEventHandler(FrmVenta_FormClosing);//cerrar form desde la cruz
             dgvProductos.CellBeginEdit += new DataGridViewCellCancelEventHandler(dgvProductos_CellBeginEdit); //editar la celda cantidad
 
@@ -42,8 +41,6 @@ namespace MenuLogueo
 
         private void FrmVenta_Load(object sender, EventArgs e)
         {
-            CargarDataGridView(Carniceria.ObtenerProductos());
-
             // Inicializar el ComboBox con las opciones 
             cmbFormaDePago.Items.Add("Tarjeta de crédito");
             cmbFormaDePago.Items.Add("Tarjeta de debito");
@@ -109,7 +106,7 @@ namespace MenuLogueo
                 producto.CantidadSeleccionada = Convert.ToInt32(row.Cells["Cantidad"].Value);
             }
         }
-
+        //calcula el total de la compra
         private double CalcularMontoTotal()
         {
             double montoTotal = 0;
@@ -160,10 +157,10 @@ namespace MenuLogueo
             confirmarVenta = MessageBox.Show("¿Desea confirmar la compra?", "Confirmar compra", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (confirmarVenta == DialogResult.Yes)
             {
-                foreach (DataGridViewRow row in dgvProductos.SelectedRows)
+                foreach (DataGridViewRow row in dgvProductos.SelectedRows) //recorro todas las filas seleccionadas
                 {
                     int rowIndex = row.Index;
-                    Producto producto = Carniceria.ObtenerProductos()[rowIndex];
+                    Producto producto = Carniceria.ObtenerProductos()[rowIndex];//obtengo los productos de esa fila
 
                     // Verificar si hay suficiente stock disponible
                     if (producto.StockDisponible == 0)

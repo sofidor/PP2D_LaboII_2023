@@ -17,9 +17,8 @@ namespace MenuLogueo
             this.FormClosing += new FormClosingEventHandler(FrmLogueo_FormClosing);//cerrar form desde la cruz
         }
         private void btnVendedor_Click(object sender, EventArgs e)
-        {
-            // Establecer los valores predeterminados del correo electrónico y la contraseña para el vendedor
-            txtMail.Text = "vendedor@mail.com";
+        {            
+            txtMail.Text = "sergioLopez@gmail.com";
             txtPass.Text = "clave123";
         }
         private void btnCliente_Click(object sender, EventArgs e)
@@ -32,23 +31,21 @@ namespace MenuLogueo
             string usuario = this.txtMail.Text;
             string pass = this.txtPass.Text;
 
-            SoundPlayer sonidoLogueo= new SoundPlayer(); //almacena el audio 
-
+            SoundPlayer sonidoLogueo= new SoundPlayer(); //almacena el audio
             sonidoLogueo.SoundLocation = "C:/Users/sofia/Downloads/SonidoInicioDeSesion.wav";
             sonidoLogueo.Play();
 
-
             // Verificar si el usuario es un vendedor o un cliente
-            if (txtMail.Text == "vendedor@mail.com" && txtPass.Text == "clave123")
+            if (txtMail.Text == "sergioLopez@gmail.com" && txtPass.Text == "clave123")
             {
-                // Si el usuario es un vendedor, abrir el formulario "Heladera"
+                // Si el usuario es un vendedor, abrir el formulario Heladera
                 FrmHeladera heladeraForm = new FrmHeladera();
                 heladeraForm.Show();
                 this.Hide();
             }
             else if (txtMail.Text == "cliente@mail.com" && txtPass.Text == "clave234")
             {
-                // Si el usuario es un cliente, abrir el formulario "Comprar"
+                // Si el usuario es un cliente, abrir el formulario Venta
                 FrmVenta ventaForm = new FrmVenta();
                 ventaForm.Show();
                 this.Hide();
@@ -92,7 +89,7 @@ namespace MenuLogueo
         {
             if (e.CloseReason == CloseReason.UserClosing)
             {
-                // El usuario hizo clic en la cruz, cerrar la aplicación
+                // Si el usuario hizo clic en la cruz, cerrar la aplicación
                 e.Cancel = false; // Permitir el cierre
                 Application.Exit(); // Cerrar la aplicación
             }
