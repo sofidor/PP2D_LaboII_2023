@@ -167,10 +167,7 @@ namespace MenuLogueo
                     {
                         MessageBox.Show("El valor total de los productos seleccionados supera el monto a gastar del cliente.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
-                    }
-                    // Restarle el monto gastado
-                    double nuevoMontoMaximo = clienteSeleccionado.MontoDisponible - precioTotal;
-                    txtMontoCliente.Text = nuevoMontoMaximo.ToString();
+                    }                   
                    
                     producto.StockDisponible -= cantidadSeleccionada;
 
@@ -181,7 +178,9 @@ namespace MenuLogueo
                     // Agregar el producto a la lista de productos vendidos
                     productosVendidos.Add(producto);
                 }
-                            
+                // Restarle el monto gastado
+                double nuevoMontoMaximo = clienteSeleccionado.MontoDisponible - precioTotal;
+                txtMontoCliente.Text = nuevoMontoMaximo.ToString();
 
                 // Verificar si el cliente tiene el tipo de pago "TarjetaDeCredito"
                 if (clienteSeleccionado.MetodoDePago == eMetodoPago.TarjetaDeCredito)
