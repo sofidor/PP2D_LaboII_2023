@@ -111,8 +111,7 @@ namespace MenuLogueo
             DialogResult confirmarVenta;
             Vendedor vendedor = new Vendedor("sergioLopez@gmail.com","clave123","Sergio Lopéz");
             List<Producto> productosVendidos = new List<Producto>(); // Crear una nueva lista para almacenar los productos vendidos
-            Cliente clienteSeleccionado = Carniceria.ObtenerClientes()[cbClientes.SelectedIndex];// retorna el cliente q le hago clic ,utiliza el índice obtenido anteriormente
-                                                                                                 // para acceder a la lista de clientes y obtener el cliente seleccionado
+            Cliente clienteSeleccionado = Carniceria.ObtenerClientes()[cbClientes.SelectedIndex];// retorna el cliente q le hago clic con todos sus datos                                                                                                
             string clienteSeleccionadoNombre = cbClientes.SelectedItem.ToString();
             string montoCliente = clienteSeleccionado.MontoDisponible.ToString();
             string metodoPago = clienteSeleccionado.MetodoDePago.ToString();
