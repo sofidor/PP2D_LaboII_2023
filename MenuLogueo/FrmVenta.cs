@@ -40,15 +40,13 @@ namespace MenuLogueo
         }
 
         private void FrmVenta_Load(object sender, EventArgs e)
-        {
-            // Inicializar el ComboBox con las opciones 
+        {           
             cmbFormaDePago.Items.Add("Tarjeta de crédito");
             cmbFormaDePago.Items.Add("Tarjeta de debito");
             cmbFormaDePago.Items.Add("Mercado pago");
             cmbFormaDePago.Items.Add("Efectivo");
-
-            // Establecer una opción seleccionada por defecto
-            cmbFormaDePago.SelectedIndex = 3;
+            
+            cmbFormaDePago.SelectedIndex = 3;// Establecer una opción seleccionada por defecto
 
             cmbTipoDeCorte.Items.Add("vaca");
             cmbTipoDeCorte.Items.Add("cerdo");
@@ -59,20 +57,16 @@ namespace MenuLogueo
         }
 
         private void dgvProductos_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
-        {
-            // Obtener la columna actual
-            DataGridViewColumn column = dgvProductos.Columns[e.ColumnIndex];
-
-            // Verificar si la columna es la columna "cantidad"
+        {            
+            DataGridViewColumn column = dgvProductos.Columns[e.ColumnIndex];//obtener la columna actual
+            
             if (column.Name == "Cantidad")
-            {
-                // Permitir la edición de la celda "cantidad"
-                e.Cancel = false;
+            {               
+                e.Cancel = false; // Permitir la edición de la celda "cantidad"
             }
             else
-            {
-                // Cancelar la edición de cualquier otra celda
-                e.Cancel = true;
+            {                
+                e.Cancel = true;// Cancelar la edición de cualquier otra celda
             }
         }
 
@@ -192,9 +186,8 @@ namespace MenuLogueo
                     }
 
                     // Actualizar la cantidad seleccionada del producto
-                    producto.CantidadSeleccionada = cantidadSeleccionada;
-                    // Restar la cantidad seleccionada del stock disponible
-                    producto.StockDisponible -= cantidadSeleccionada;
+                    producto.CantidadSeleccionada = cantidadSeleccionada;                    
+                    producto.StockDisponible -= cantidadSeleccionada;// Restar la cantidad seleccionada del stock disponible
 
                     // Actualizar la celda de StockDisponible en el DataGridView
                     DataGridViewCell stockCell = row.Cells["StockDisponible"];

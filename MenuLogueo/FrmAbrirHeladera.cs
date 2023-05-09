@@ -139,7 +139,7 @@ namespace MenuLogueo
             }
             else
             {
-                MessageBox.Show("Por favor ingrese todos los valores requeridos");
+                MessageBox.Show("Por favor ingrese todos los valores requeridos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void btnEliminar_Click(object sender, EventArgs e)

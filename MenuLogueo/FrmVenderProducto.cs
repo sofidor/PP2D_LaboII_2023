@@ -56,30 +56,54 @@ namespace MenuLogueo
 
         private void dgvProductos_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            DataGridViewRow row = this.dgvProductos.Rows[e.RowIndex];
-
-            //obtener el producto seleccionado
-            Producto producto = new Producto(
-                 row.Cells["nombreProducto"].Value.ToString(),
-                 row.Cells["tipoDeAnimal"].Value.ToString(),
-                 Convert.ToInt32(row.Cells["stockDisponible"].Value),
-                 Convert.ToDouble(row.Cells["precioPorKilo"].Value),
-                   Convert.ToInt32(row.Cells["cantidad"].Value)
-             );
-
-            // agregar o eliminar el producto seleccionado o deseleccionado de la lista
-            if (row.Selected)
+            if (e.RowIndex >= 0)
             {
-                productosSeleccionados.Add(producto);
+                DataGridViewRow row = this.dgvProductos.Rows[e.RowIndex];
+                if (row.Cells != null) //verificar si la fila seleccionada no está vacía
+                {
+                    // Obtener el producto seleccionado
+                    Producto producto = new Producto(
+                        row.Cells["nombreProducto"].Value.ToString(),
+                        row.Cells["tipoDeAnimal"].Value.ToString(),
+                        Convert.ToInt32(row.Cells["stockDisponible"].Value),
+                        Convert.ToDouble(row.Cells["precioPorKilo"].Value),
+                        Convert.ToInt32(row.Cells["cantidad"].Value)
+                    );
 
+                    // Agregar o eliminar el producto seleccionado o deseleccionado de la lista
+                    if (row.Selected)
+                    {
+                        productosSeleccionados.Add(producto);
+                    }
+                    else
+                    {
+                        productosSeleccionados.Remove(producto);
+                    }
+
+                    // Actualizar la cantidad seleccionada del producto
+                    producto.CantidadSeleccionada = Convert.ToInt32(row.Cells["cantidad"].Value);
+                }
             }
             else
             {
-                productosSeleccionados.Remove(producto);
+                MessageBox.Show("Por favor, seleccione una fila válida.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+        private double CalcularMontoTotal()
+        {
+            double montoTotal = 0;
+            foreach (DataGridViewRow row in dgvProductos.Rows)
+            {
+                bool isSelected = row.Selected;
+                int cantidadSeleccionada = Convert.ToInt32(row.Cells["Cantidad"].Value);
+                double precioPorKilo = Convert.ToDouble(row.Cells["PrecioPorKilo"].Value);
 
-            // Actualizar la cantidad seleccionada del producto
-            producto.CantidadSeleccionada = Convert.ToInt32(row.Cells["cantidad"].Value);
+                if (isSelected && cantidadSeleccionada > 0)
+                {
+                    montoTotal += precioPorKilo * cantidadSeleccionada;
+                }
+            }
+            return montoTotal;
         }
 
         private void btnVender_Click(object sender, EventArgs e)
@@ -87,13 +111,13 @@ namespace MenuLogueo
             DialogResult confirmarVenta;
             Vendedor vendedor = new Vendedor("sergioLopez@gmail.com","clave123","Sergio Lopéz");
             List<Producto> productosVendidos = new List<Producto>(); // Crear una nueva lista para almacenar los productos vendidos
-            Cliente clienteSeleccionadoMonto = Carniceria.ObtenerClientes()[cbClientes.SelectedIndex];// retorna el cliente q le hago clic
-            string montoCliente = clienteSeleccionadoMonto.MontoDisponible.ToString();
-            string metodoPago = clienteSeleccionadoMonto.MetodoDePago.ToString();
-            double precioTotal = 0;
-
-            // Obtener el cliente seleccionado del ComboBox
+            Cliente clienteSeleccionado = Carniceria.ObtenerClientes()[cbClientes.SelectedIndex];// retorna el cliente q le hago clic ,utiliza el índice obtenido anteriormente
+                                                                                                 // para acceder a la lista de clientes y obtener el cliente seleccionado
             string clienteSeleccionadoNombre = cbClientes.SelectedItem.ToString();
+            string montoCliente = clienteSeleccionado.MontoDisponible.ToString();
+            string metodoPago = clienteSeleccionado.MetodoDePago.ToString();
+            double precioTotal = CalcularMontoTotal();
+            double precioFinal = precioTotal;           
 
             // Verificar que se ha seleccionado un cliente
             if (cbClientes.SelectedItem == null)
@@ -112,12 +136,11 @@ namespace MenuLogueo
             // Mostrar mensaje de confirmación
             confirmarVenta = MessageBox.Show("¿Desea confirmar la compra?", "Confirmar compra", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (confirmarVenta == DialogResult.Yes)
-            {
-                // Disminuir el stock de los productos seleccionados
-                foreach (DataGridViewRow row in dgvProductos.SelectedRows)
+            {               
+                foreach (DataGridViewRow row in dgvProductos.SelectedRows)//recorro todas las filas seleccionadas
                 {
                     int rowIndex = row.Index;
-                    Producto producto = Carniceria.ObtenerProductos()[rowIndex];
+                    Producto producto = Carniceria.ObtenerProductos()[rowIndex];//obtengo los productos de esa fila
 
                     // Verificar si hay suficiente stock disponible
                     if (producto.StockDisponible == 0)
@@ -139,33 +162,30 @@ namespace MenuLogueo
                     {
                         MessageBox.Show("La cantidad seleccionada del producto debe ser mayor a cero.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
-                    }
-
-                    precioTotal = producto.PrecioPorKilo * producto.CantidadSeleccionada;
+                    }                    
                     // Verificar si el valor total supera el monto a gastar del cliente
-                    if (precioTotal > clienteSeleccionadoMonto.MontoDisponible)
+                    if (precioTotal > clienteSeleccionado.MontoDisponible)
                     {
                         MessageBox.Show("El valor total de los productos seleccionados supera el monto a gastar del cliente.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
                     // Restarle el monto gastado
-                    double nuevoMontoMaximo = clienteSeleccionadoMonto.MontoDisponible - precioTotal;
+                    double nuevoMontoMaximo = clienteSeleccionado.MontoDisponible - precioTotal;
                     txtMontoCliente.Text = nuevoMontoMaximo.ToString();
-
-                    producto.CantidadSeleccionada = cantidadSeleccionada;
+                   
                     producto.StockDisponible -= cantidadSeleccionada;
 
                     // Actualizar la celda de StockDisponible en el DataGridView
                     DataGridViewCell stockCell = row.Cells["StockDisponible"];
                     stockCell.Value = producto.StockDisponible;
 
-                    // Agregar el producto a la lista de productos comprados
+                    // Agregar el producto a la lista de productos vendidos
                     productosVendidos.Add(producto);
                 }
-                double precioFinal = precioTotal;               
+                            
 
                 // Verificar si el cliente tiene el tipo de pago "TarjetaDeCredito"
-                if (clienteSeleccionadoMonto.MetodoDePago == eMetodoPago.TarjetaDeCredito)
+                if (clienteSeleccionado.MetodoDePago == eMetodoPago.TarjetaDeCredito)
                 {
                     // Calcular el aumento del 5% al monto total
                     double aumento = precioTotal * 0.05;
