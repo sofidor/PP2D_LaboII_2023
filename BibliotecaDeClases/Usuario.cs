@@ -22,10 +22,5 @@ namespace BibliotecaDeClases
         {
             get { return this.mailUsuario; }
         }
-
-        public string ContraseñaUsuario
-        {
-            get { return this.contraseñaUsuario; }
-        }
     }
 }
