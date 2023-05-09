@@ -47,13 +47,6 @@ namespace MenuLogueo
             txtDetalle.Text = "";
             txtStock.Text = "";
         }
-
-
-        private void btnSalir_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-
         private void dgvProductos_CellClick_1(object sender, DataGridViewCellEventArgs e) //muestra detalles
         {
             // Obtener el índice de la fila seleccionada

@@ -17,6 +17,7 @@ namespace MenuLogueo
         List<Producto> productosSeleccionados = new List<Producto>();
         List<Producto> listaDeProductos;
         List<Venta> ventas = new List<Venta>();
+        double montoMaximoCliente = 0;
         public FrmVenderProducto()
         {
             InitializeComponent();
@@ -40,7 +41,7 @@ namespace MenuLogueo
         {
             // Obtener la lista de clientes
             List<Cliente> clientes = Carniceria.ObtenerClientes();
-           
+
             // Agregar los nombres de los clientes al ComboBox
             foreach (Cliente cliente in clientes)
             {
@@ -96,10 +97,15 @@ namespace MenuLogueo
         private void btnVender_Click(object sender, EventArgs e)
         {
             DialogResult confirmarVenta;
+            Vendedor vendedor = new Vendedor("vendedor@gmail.com","clave123","Sergio Lopéz");
             List<Producto> productosVendidos = new List<Producto>(); // Crear una nueva lista para almacenar los productos vendidos
-            List<Cliente> clienteAux = new List<Cliente>();
-            Cliente clienteSeleccionadoMonto = Carniceria.ObtenerClientes()[cbClientes.SelectedIndex];
-            double precioTotal =0;
+            Cliente clienteSeleccionadoMonto = Carniceria.ObtenerClientes()[cbClientes.SelectedIndex];// retorna el cliente q le hago clic
+            string montoCliente = clienteSeleccionadoMonto.MontoDisponible.ToString();
+            string metodoPago = clienteSeleccionadoMonto.MetodoDePago.ToString();
+            double precioTotal = 0;
+
+            // Obtener el cliente seleccionado del ComboBox
+            string clienteSeleccionadoNombre = cbClientes.SelectedItem.ToString();
 
             // Verificar que se ha seleccionado un cliente
             if (cbClientes.SelectedItem == null)
@@ -107,8 +113,6 @@ namespace MenuLogueo
                 MessageBox.Show("Por favor, seleccione un cliente.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            // Obtener el cliente seleccionado
-            string cliente = cbClientes.SelectedItem.ToString();
 
             // Verificar que se han seleccionado productos para la venta
             if (productosSeleccionados.Count == 0)
@@ -147,8 +151,8 @@ namespace MenuLogueo
                     {
                         MessageBox.Show("La cantidad seleccionada del producto debe ser mayor a cero.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
-                    }                  
-                  
+                    }
+
                     precioTotal = producto.PrecioPorKilo * producto.CantidadSeleccionada;
                     // Verificar si el valor total supera el monto a gastar del cliente
                     if (precioTotal > clienteSeleccionadoMonto.MontoDisponible)
@@ -156,8 +160,7 @@ namespace MenuLogueo
                         MessageBox.Show("El valor total de los productos seleccionados supera el monto a gastar del cliente.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
-
-                    // Actualizar el objeto Producto en la lista
+                    
                     producto.CantidadSeleccionada = cantidadSeleccionada;
                     producto.StockDisponible -= cantidadSeleccionada;
 
@@ -168,16 +171,26 @@ namespace MenuLogueo
                     // Agregar el producto a la lista de productos comprados
                     productosVendidos.Add(producto);
                 }
+                double precioFinal = precioTotal;
+                
+                // Restarle el monto gastado
+                double nuevoMontoMaximo = clienteSeleccionadoMonto.MontoDisponible - precioTotal;
+                txtMontoCliente.Text = nuevoMontoMaximo.ToString();
 
-                // Obtener el cliente seleccionado del ComboBox
-                string clienteSeleccionadoNombre = cbClientes.SelectedItem.ToString();
-
+                // Verificar si el cliente tiene el tipo de pago "TarjetaDeCredito"
+                if (clienteSeleccionadoMonto.MetodoDePago == eMetodoPago.TarjetaDeCredito)
+                {
+                    // Calcular el aumento del 5% al monto total
+                    double aumento = precioTotal * 0.05;
+                    precioTotal += aumento;
+                }
+             
                 // Crear un nuevo objeto Venta para el producto vendido y agregarlo a la lista de ventas
                 Venta venta = new Venta(productosVendidos, clienteSeleccionadoNombre);
                 Carniceria.CargarVenta(venta);
 
                 // Crear una instancia del formulario FrmFacturaDueño y pasar el cliente seleccionado
-                FrmFactura frmFacturaDueño = new FrmFactura(productosVendidos, precioTotal,clienteSeleccionadoNombre);
+                FrmFactura frmFacturaDueño = new FrmFactura(productosVendidos, precioTotal, precioFinal, clienteSeleccionadoNombre, metodoPago,vendedor.nombreVendedor);
                 frmFacturaDueño.Show();
             }
             else

@@ -2,11 +2,11 @@
 {   
     public class Producto
     {
-        public string nombreProducto;
-        public string tipoDeAnimal; 
-        public double precioPorKilo;
-        public int stockDisponible;
-        public int cantidadSeleccionada;
+        private string nombreProducto;
+        private string tipoDeAnimal;
+        private double precioPorKilo;
+        private int stockDisponible;
+        private int cantidadSeleccionada;
 
         public Producto(string nombreProducto, string tipoDeAnimal, int stockDisponible, double precioPorKilo, int cantidadSeleccionada)
         {

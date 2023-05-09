@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace BibliotecaDeClases
@@ -47,13 +48,18 @@ namespace BibliotecaDeClases
                 }
             }
         }
-
         public eMetodoPago MetodoDePago
         {
             get { return metodoDePago; }
         }
+        public static bool ValidarNombre(string nombre)
+        {
+            // Expresión regular para validar que solo haya letras en el nombre
+            Regex regex = new Regex("^[a-zA-Z]+$");
 
-
+            // Comprobar si el nombre coincide con la expresión regular
+            return regex.IsMatch(nombre);
+        }
     }
 }
 

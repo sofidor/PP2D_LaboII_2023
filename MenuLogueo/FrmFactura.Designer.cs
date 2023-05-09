@@ -41,10 +41,14 @@
             lbCliente = new Label();
             lbMontoTotal = new Label();
             lbFecha = new Label();
-            lbConsumidor = new Label();
+            lbNombreVendedor = new Label();
             lbTotal = new Label();
             lbFechaActual = new Label();
             lbNombre = new Label();
+            lbTotalFinal = new Label();
+            lbTipoDePago = new Label();
+            lbFormaDePago = new Label();
+            lbVendedor = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvProductos).BeginInit();
             SuspendLayout();
@@ -94,12 +98,12 @@
             dgvProductos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvProductos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvProductos.Columns.AddRange(new DataGridViewColumn[] { nombreProducto, tipoDeAnimal, precioPorKilo, Cantidad });
-            dgvProductos.Location = new Point(12, 170);
+            dgvProductos.Location = new Point(12, 207);
             dgvProductos.Name = "dgvProductos";
             dgvProductos.ReadOnly = true;
             dgvProductos.RowHeadersWidth = 51;
             dgvProductos.RowTemplate.Height = 29;
-            dgvProductos.Size = new Size(605, 379);
+            dgvProductos.Size = new Size(605, 386);
             dgvProductos.TabIndex = 12;
             // 
             // nombreProducto
@@ -138,7 +142,7 @@
             // 
             lbCliente.AutoSize = true;
             lbCliente.Font = new Font("Segoe UI Semibold", 10.8F, FontStyle.Bold, GraphicsUnit.Point);
-            lbCliente.Location = new Point(112, 131);
+            lbCliente.Location = new Point(101, 131);
             lbCliente.Name = "lbCliente";
             lbCliente.Size = new Size(78, 25);
             lbCliente.TabIndex = 13;
@@ -156,38 +160,38 @@
             // lbFecha
             // 
             lbFecha.AutoSize = true;
-            lbFecha.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
-            lbFecha.Location = new Point(401, 62);
+            lbFecha.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point);
+            lbFecha.Location = new Point(442, 30);
             lbFecha.Name = "lbFecha";
-            lbFecha.Size = new Size(67, 23);
+            lbFecha.Size = new Size(74, 25);
             lbFecha.TabIndex = 18;
             lbFecha.Text = "FECHA:";
             // 
-            // lbConsumidor
+            // lbNombreVendedor
             // 
-            lbConsumidor.AutoSize = true;
-            lbConsumidor.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            lbConsumidor.Location = new Point(419, 97);
-            lbConsumidor.Name = "lbConsumidor";
-            lbConsumidor.Size = new Size(129, 20);
-            lbConsumidor.TabIndex = 19;
-            lbConsumidor.Text = "Consumidor Final";
+            lbNombreVendedor.AutoSize = true;
+            lbNombreVendedor.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            lbNombreVendedor.Location = new Point(10, 631);
+            lbNombreVendedor.Name = "lbNombreVendedor";
+            lbNombreVendedor.Size = new Size(81, 20);
+            lbNombreVendedor.TabIndex = 19;
+            lbNombreVendedor.Text = "Vendedor:";
             // 
             // lbTotal
             // 
             lbTotal.AutoSize = true;
             lbTotal.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            lbTotal.Location = new Point(301, 552);
+            lbTotal.Location = new Point(327, 596);
             lbTotal.Name = "lbTotal";
-            lbTotal.Size = new Size(133, 28);
+            lbTotal.Size = new Size(64, 28);
             lbTotal.TabIndex = 21;
-            lbTotal.Text = "Monto Total:";
+            lbTotal.Text = "Total:";
             // 
             // lbFechaActual
             // 
             lbFechaActual.AutoSize = true;
             lbFechaActual.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
-            lbFechaActual.Location = new Point(477, 62);
+            lbFechaActual.Location = new Point(428, 55);
             lbFechaActual.Name = "lbFechaActual";
             lbFechaActual.Size = new Size(100, 23);
             lbFechaActual.TabIndex = 22;
@@ -199,20 +203,64 @@
             lbNombre.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
             lbNombre.Location = new Point(12, 128);
             lbNombre.Name = "lbNombre";
-            lbNombre.Size = new Size(94, 28);
+            lbNombre.Size = new Size(83, 28);
             lbNombre.TabIndex = 23;
-            lbNombre.Text = "Nombre:";
+            lbNombre.Text = "Cliente:";
             // 
-            // FrmFacturaCliente
+            // lbTotalFinal
+            // 
+            lbTotalFinal.AutoSize = true;
+            lbTotalFinal.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            lbTotalFinal.Location = new Point(327, 624);
+            lbTotalFinal.Name = "lbTotalFinal";
+            lbTotalFinal.Size = new Size(115, 28);
+            lbTotalFinal.TabIndex = 24;
+            lbTotalFinal.Text = "Total Final:";
+            // 
+            // lbTipoDePago
+            // 
+            lbTipoDePago.AutoSize = true;
+            lbTipoDePago.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            lbTipoDePago.Location = new Point(12, 167);
+            lbTipoDePago.Name = "lbTipoDePago";
+            lbTipoDePago.Size = new Size(173, 28);
+            lbTipoDePago.TabIndex = 25;
+            lbTipoDePago.Text = "Metodo de pago:";
+            // 
+            // lbFormaDePago
+            // 
+            lbFormaDePago.AutoSize = true;
+            lbFormaDePago.Font = new Font("Segoe UI Semibold", 10.8F, FontStyle.Bold, GraphicsUnit.Point);
+            lbFormaDePago.Location = new Point(182, 170);
+            lbFormaDePago.Name = "lbFormaDePago";
+            lbFormaDePago.Size = new Size(119, 25);
+            lbFormaDePago.TabIndex = 26;
+            lbFormaDePago.Text = "metodoPago";
+            // 
+            // lbVendedor
+            // 
+            lbVendedor.AutoSize = true;
+            lbVendedor.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            lbVendedor.Location = new Point(93, 632);
+            lbVendedor.Name = "lbVendedor";
+            lbVendedor.Size = new Size(130, 20);
+            lbVendedor.TabIndex = 27;
+            lbVendedor.Text = "nombreVendedor";
+            // 
+            // FrmFactura
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.OldLace;
-            ClientSize = new Size(627, 614);
+            ClientSize = new Size(625, 655);
+            Controls.Add(lbVendedor);
+            Controls.Add(lbFormaDePago);
+            Controls.Add(lbTipoDePago);
+            Controls.Add(lbTotalFinal);
             Controls.Add(lbNombre);
             Controls.Add(lbFechaActual);
             Controls.Add(lbTotal);
-            Controls.Add(lbConsumidor);
+            Controls.Add(lbNombreVendedor);
             Controls.Add(lbFecha);
             Controls.Add(lbMontoTotal);
             Controls.Add(lbCliente);
@@ -221,7 +269,7 @@
             Controls.Add(label1);
             Controls.Add(pictureBox1);
             Icon = (Icon)resources.GetObject("$this.Icon");
-            Name = "FrmFacturaCliente";
+            Name = "FrmFactura";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Factura";
             Load += FrmFactura_Load;
@@ -241,7 +289,7 @@
         private TextBox txtTotal;
         private Label lbMontoTotal;
         private Label lbFecha;
-        private Label lbConsumidor;
+        private Label lbNombreVendedor;
         private Label lbTotal;
         private DataGridViewTextBoxColumn nombreProducto;
         private DataGridViewTextBoxColumn tipoDeAnimal;
@@ -249,5 +297,9 @@
         private DataGridViewTextBoxColumn Cantidad;
         private Label lbFechaActual;
         private Label lbNombre;
+        private Label lbTotalFinal;
+        private Label lbTipoDePago;
+        private Label lbFormaDePago;
+        private Label lbVendedor;
     }
 }

@@ -7,30 +7,19 @@ using System.Threading.Tasks;
 namespace BibliotecaDeClases
 {
     public class Vendedor : Usuario
-    {        
-        private List<Producto> productos;
-        private double montoMaximo;
+    {
+        public string nombreVendedor;
+        public double montoMaximo;
 
-        public Vendedor(string mailUsuario, string contraseñaUsuario, List<Producto> productos, double montoMaximo)
+        public Vendedor(string mailUsuario, string contraseñaUsuario, string nombreVendedor)
         : base(mailUsuario, contraseñaUsuario)
         {
-            this.productos = productos;
-            this.montoMaximo = montoMaximo;
-        }
+            this.nombreVendedor = nombreVendedor;
+        }            
 
-        // Propiedades
-        public List<Producto> Productos
-        {
-            get { return productos; }
-            set { productos = value; }
-        }
-
-        public double MontoMaximo
-        {
-            get { return montoMaximo; }
-            set { montoMaximo = value; }
-        }
-
-      
+        public string NombreVendedor
+        {            
+            get {return nombreVendedor; }
+        }      
     }
 }

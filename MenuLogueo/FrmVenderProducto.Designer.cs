@@ -31,16 +31,18 @@
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmVenderProducto));
             dgvProductos = new DataGridView();
-            cbClientes = new ComboBox();
-            btnVender = new Button();
-            lbCliente = new Label();
-            btnVolver = new Button();
-            btnVer = new Button();
             nombreProducto = new DataGridViewTextBoxColumn();
             tipoDeAnimal = new DataGridViewTextBoxColumn();
             stockDisponible = new DataGridViewTextBoxColumn();
             precioPorKilo = new DataGridViewTextBoxColumn();
             cantidad = new DataGridViewTextBoxColumn();
+            cbClientes = new ComboBox();
+            btnVender = new Button();
+            lbCliente = new Label();
+            btnVolver = new Button();
+            btnVer = new Button();
+            lbMontoCliente = new Label();
+            txtMontoCliente = new TextBox();
             ((System.ComponentModel.ISupportInitialize)dgvProductos).BeginInit();
             SuspendLayout();
             // 
@@ -68,69 +70,6 @@
             dgvProductos.TabIndex = 1;
             dgvProductos.CellBeginEdit += dgvProductos_CellBeginEdit;
             dgvProductos.CellClick += dgvProductos_CellClick;
-            // 
-            // cbClientes
-            // 
-            cbClientes.BackColor = SystemColors.ActiveCaption;
-            cbClientes.DropDownStyle = ComboBoxStyle.DropDownList;
-            cbClientes.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            cbClientes.FormattingEnabled = true;
-            cbClientes.Location = new Point(23, 472);
-            cbClientes.Name = "cbClientes";
-            cbClientes.Size = new Size(187, 28);
-            cbClientes.TabIndex = 4;
-            // 
-            // btnVender
-            // 
-            btnVender.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            btnVender.BackColor = Color.DarkSeaGreen;
-            btnVender.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
-            btnVender.Image = (Image)resources.GetObject("btnVender.Image");
-            btnVender.ImageAlign = ContentAlignment.MiddleLeft;
-            btnVender.Location = new Point(473, 450);
-            btnVender.Name = "btnVender";
-            btnVender.Size = new Size(187, 50);
-            btnVender.TabIndex = 5;
-            btnVender.Text = "Vender";
-            btnVender.UseVisualStyleBackColor = false;
-            btnVender.Click += btnVender_Click;
-            // 
-            // lbCliente
-            // 
-            lbCliente.AutoSize = true;
-            lbCliente.BackColor = Color.Transparent;
-            lbCliente.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point);
-            lbCliente.Location = new Point(23, 444);
-            lbCliente.Name = "lbCliente";
-            lbCliente.Size = new Size(76, 25);
-            lbCliente.TabIndex = 7;
-            lbCliente.Text = "Cliente:";
-            // 
-            // btnVolver
-            // 
-            btnVolver.BackColor = Color.SkyBlue;
-            btnVolver.Image = (Image)resources.GetObject("btnVolver.Image");
-            btnVolver.Location = new Point(685, 573);
-            btnVolver.Name = "btnVolver";
-            btnVolver.Size = new Size(98, 29);
-            btnVolver.TabIndex = 12;
-            btnVolver.UseVisualStyleBackColor = false;
-            btnVolver.Click += btnVolver_Click_1;
-            // 
-            // btnVer
-            // 
-            btnVer.BackColor = SystemColors.ActiveCaption;
-            btnVer.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            btnVer.ForeColor = SystemColors.ActiveCaptionText;
-            btnVer.Image = (Image)resources.GetObject("btnVer.Image");
-            btnVer.ImageAlign = ContentAlignment.MiddleLeft;
-            btnVer.Location = new Point(23, 535);
-            btnVer.Name = "btnVer";
-            btnVer.Size = new Size(230, 60);
-            btnVer.TabIndex = 14;
-            btnVer.Text = "Ver Historial Ventas";
-            btnVer.UseVisualStyleBackColor = false;
-            btnVer.Click += btnVer_Click;
             // 
             // nombreProducto
             // 
@@ -167,13 +106,97 @@
             cantidad.Name = "cantidad";
             cantidad.Width = 125;
             // 
+            // cbClientes
+            // 
+            cbClientes.BackColor = SystemColors.ActiveCaption;
+            cbClientes.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbClientes.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            cbClientes.FormattingEnabled = true;
+            cbClientes.Location = new Point(23, 472);
+            cbClientes.Name = "cbClientes";
+            cbClientes.Size = new Size(187, 28);
+            cbClientes.TabIndex = 4;
+            // 
+            // btnVender
+            // 
+            btnVender.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            btnVender.BackColor = Color.DarkSeaGreen;
+            btnVender.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
+            btnVender.Image = (Image)resources.GetObject("btnVender.Image");
+            btnVender.ImageAlign = ContentAlignment.MiddleLeft;
+            btnVender.Location = new Point(587, 459);
+            btnVender.Name = "btnVender";
+            btnVender.Size = new Size(187, 50);
+            btnVender.TabIndex = 5;
+            btnVender.Text = "Vender";
+            btnVender.UseVisualStyleBackColor = false;
+            btnVender.Click += btnVender_Click;
+            // 
+            // lbCliente
+            // 
+            lbCliente.AutoSize = true;
+            lbCliente.BackColor = Color.Transparent;
+            lbCliente.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point);
+            lbCliente.Location = new Point(23, 444);
+            lbCliente.Name = "lbCliente";
+            lbCliente.Size = new Size(76, 25);
+            lbCliente.TabIndex = 7;
+            lbCliente.Text = "Cliente:";
+            // 
+            // btnVolver
+            // 
+            btnVolver.BackColor = Color.SkyBlue;
+            btnVolver.Image = (Image)resources.GetObject("btnVolver.Image");
+            btnVolver.Location = new Point(676, 565);
+            btnVolver.Name = "btnVolver";
+            btnVolver.Size = new Size(98, 29);
+            btnVolver.TabIndex = 12;
+            btnVolver.UseVisualStyleBackColor = false;
+            btnVolver.Click += btnVolver_Click_1;
+            // 
+            // btnVer
+            // 
+            btnVer.BackColor = SystemColors.ActiveCaption;
+            btnVer.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            btnVer.ForeColor = SystemColors.ActiveCaptionText;
+            btnVer.Image = (Image)resources.GetObject("btnVer.Image");
+            btnVer.ImageAlign = ContentAlignment.MiddleLeft;
+            btnVer.Location = new Point(23, 534);
+            btnVer.Name = "btnVer";
+            btnVer.Size = new Size(230, 60);
+            btnVer.TabIndex = 14;
+            btnVer.Text = "Ver Historial Ventas";
+            btnVer.UseVisualStyleBackColor = false;
+            btnVer.Click += btnVer_Click;
+            // 
+            // lbMontoCliente
+            // 
+            lbMontoCliente.AutoSize = true;
+            lbMontoCliente.BackColor = Color.Transparent;
+            lbMontoCliente.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point);
+            lbMontoCliente.Location = new Point(280, 444);
+            lbMontoCliente.Name = "lbMontoCliente";
+            lbMontoCliente.Size = new Size(136, 25);
+            lbMontoCliente.TabIndex = 15;
+            lbMontoCliente.Text = "Monto cliente:";
+            // 
+            // txtMontoCliente
+            // 
+            txtMontoCliente.Location = new Point(280, 472);
+            txtMontoCliente.Name = "txtMontoCliente";
+            txtMontoCliente.ReadOnly = true;
+            txtMontoCliente.Size = new Size(186, 27);
+            txtMontoCliente.TabIndex = 16;
+            // 
             // FrmVenderProducto
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
-            ClientSize = new Size(795, 614);
+            ClientSize = new Size(798, 610);
+            Controls.Add(txtMontoCliente);
+            Controls.Add(lbMontoCliente);
             Controls.Add(btnVer);
             Controls.Add(btnVolver);
             Controls.Add(lbCliente);
@@ -204,5 +227,7 @@
         private DataGridViewTextBoxColumn stockDisponible;
         private DataGridViewTextBoxColumn precioPorKilo;
         private DataGridViewTextBoxColumn cantidad;
+        private Label lbMontoCliente;
+        private TextBox txtMontoCliente;
     }
 }

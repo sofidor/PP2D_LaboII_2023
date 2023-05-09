@@ -25,7 +25,7 @@ namespace MenuLogueo
         private void btnCliente_Click(object sender, EventArgs e)
         {
             txtMail.Text = "cliente@mail.com";
-            txtPass.Text = "clave123";
+            txtPass.Text = "clave234";
         }
         private void btnLoguearse_Click(object sender, EventArgs e)
         {
@@ -46,7 +46,7 @@ namespace MenuLogueo
                 heladeraForm.Show();
                 this.Hide();
             }
-            else if (txtMail.Text == "cliente@mail.com" && txtPass.Text == "clave123")
+            else if (txtMail.Text == "cliente@mail.com" && txtPass.Text == "clave234")
             {
                 // Si el usuario es un cliente, abrir el formulario "Comprar"
                 FrmVenta ventaForm = new FrmVenta();

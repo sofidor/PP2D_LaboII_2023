@@ -42,7 +42,7 @@ namespace MenuLogueo
                         producto.TipoDeAnimal,
                         producto.PrecioPorKilo,
                         producto.CantidadSeleccionada,
-                        venta.clienteCompra
+                        venta.ObtenerClienteCompra                     
                     );
                 }
             }

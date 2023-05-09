@@ -72,13 +72,13 @@
             dgvProductos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvProductos.Columns.AddRange(new DataGridViewColumn[] { nombreProducto, tipoDeAnimal, stockDisponible, precioPorKilo });
             dgvProductos.EnableHeadersVisualStyles = false;
-            dgvProductos.Location = new Point(325, 243);
+            dgvProductos.Location = new Point(291, 225);
             dgvProductos.Name = "dgvProductos";
             dgvProductos.ReadOnly = true;
             dgvProductos.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
             dgvProductos.RowHeadersWidth = 51;
             dgvProductos.RowTemplate.Height = 29;
-            dgvProductos.Size = new Size(637, 311);
+            dgvProductos.Size = new Size(646, 389);
             dgvProductos.TabIndex = 0;
             dgvProductos.CellClick += dgvProductos_CellClick_1;
             // 
@@ -167,7 +167,7 @@
             btnModificar.ForeColor = SystemColors.Desktop;
             btnModificar.Image = (Image)resources.GetObject("btnModificar.Image");
             btnModificar.ImageAlign = ContentAlignment.MiddleLeft;
-            btnModificar.Location = new Point(58, 361);
+            btnModificar.Location = new Point(25, 353);
             btnModificar.Name = "btnModificar";
             btnModificar.Size = new Size(218, 49);
             btnModificar.TabIndex = 9;
@@ -270,7 +270,7 @@
             btnAgregar.ForeColor = Color.Black;
             btnAgregar.Image = (Image)resources.GetObject("btnAgregar.Image");
             btnAgregar.ImageAlign = ContentAlignment.MiddleLeft;
-            btnAgregar.Location = new Point(58, 274);
+            btnAgregar.Location = new Point(25, 271);
             btnAgregar.Name = "btnAgregar";
             btnAgregar.RightToLeft = RightToLeft.No;
             btnAgregar.Size = new Size(218, 51);
@@ -286,7 +286,7 @@
             btnEliminar.ForeColor = SystemColors.Desktop;
             btnEliminar.Image = (Image)resources.GetObject("btnEliminar.Image");
             btnEliminar.ImageAlign = ContentAlignment.MiddleLeft;
-            btnEliminar.Location = new Point(58, 444);
+            btnEliminar.Location = new Point(25, 434);
             btnEliminar.Name = "btnEliminar";
             btnEliminar.Size = new Size(218, 48);
             btnEliminar.TabIndex = 25;
@@ -298,7 +298,7 @@
             // 
             btnVolver.BackColor = Color.SkyBlue;
             btnVolver.Image = (Image)resources.GetObject("btnVolver.Image");
-            btnVolver.Location = new Point(110, 525);
+            btnVolver.Location = new Point(85, 585);
             btnVolver.Name = "btnVolver";
             btnVolver.Size = new Size(98, 29);
             btnVolver.TabIndex = 26;
@@ -311,7 +311,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
-            ClientSize = new Size(990, 578);
+            ClientSize = new Size(955, 631);
             Controls.Add(btnVolver);
             Controls.Add(btnEliminar);
             Controls.Add(btnAgregar);

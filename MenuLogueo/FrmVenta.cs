@@ -17,7 +17,7 @@ namespace MenuLogueo
         List<Producto> productosSeleccionados = new List<Producto>();
         List<Producto> listaDeProductos;
         List<Venta> ventas = new List<Venta>();
-        List<Producto> productosComprados = new List<Producto>();  // Crear una nueva lista para almacenar los productos comprados
+
         public FrmVenta()
         {
             InitializeComponent();
@@ -79,7 +79,6 @@ namespace MenuLogueo
             }
         }
 
-
         private void dgvProductos_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0) // asegurarse de que se haga clic en una fila valida
@@ -132,14 +131,16 @@ namespace MenuLogueo
         {
             double montoTotal = CalcularMontoTotal();
             string nombrecliente = txtNombreCliente.Text;
+            string metodoDePago = cmbFormaDePago.SelectedItem.ToString();
+            double montoFinal = montoTotal; //por defecto inicia en monto total
             DialogResult confirmarVenta;
+            List<Producto> productosComprados = new List<Producto>();  // Crear una nueva lista para almacenar los productos comprados
 
-            if (string.IsNullOrEmpty(nombrecliente))
+            if (!Cliente.ValidarNombre(nombrecliente))
             {
                 MessageBox.Show("Por favor, ingrese un nombre válido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-
 
             // Obtener el monto máximo ingresado por el cliente
             if (!double.TryParse(txtMontoIngresado.Text, out double montoMaximo))
@@ -192,11 +193,12 @@ namespace MenuLogueo
                         MessageBox.Show("La cantidad seleccionada del producto debe ser mayor a cero.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
-                    // Restar la cantidad seleccionada del stock disponible
-                    producto.StockDisponible -= cantidadSeleccionada;
 
                     // Actualizar la cantidad seleccionada del producto
                     producto.CantidadSeleccionada = cantidadSeleccionada;
+                    // Restar la cantidad seleccionada del stock disponible
+                    producto.StockDisponible -= cantidadSeleccionada;
+
                     // Actualizar la celda de StockDisponible en el DataGridView
                     DataGridViewCell stockCell = row.Cells["StockDisponible"];
                     stockCell.Value = producto.StockDisponible;
@@ -209,7 +211,7 @@ namespace MenuLogueo
                 double nuevoMontoMaximo = montoMaximo - montoTotal;
 
                 // Actualizar el campo con el nuevo valor
-                txtNombreCliente.Text = nuevoMontoMaximo.ToString();
+                txtMontoIngresado.Text = nuevoMontoMaximo.ToString();
 
                 // Verificar si se eligió la opción "Tarjeta de crédito"
                 if (cmbFormaDePago.SelectedItem.ToString() == "Tarjeta de crédito")
@@ -217,14 +219,16 @@ namespace MenuLogueo
                     // Calcular el recargo del 5%
                     double recargo = montoTotal * 0.05;
                     montoTotal += recargo;
+
                 }
+
+                // Mostrar la factura
+                FrmFactura facturaForm = new FrmFactura(productosComprados, montoTotal, montoFinal, nombrecliente, metodoDePago, "La moderna");
+                facturaForm.Show();
+
                 // Crear un nuevo objeto Venta para el producto vendido y agregarlo a la lista de ventas
                 Venta venta = new Venta(productosComprados, nombrecliente);
                 Carniceria.CargarVenta(venta);
-
-                // Mostrar la factura
-                FrmFactura facturaForm = new FrmFactura(productosComprados, montoTotal, nombrecliente);
-                facturaForm.Show();
             }
             else
             {
@@ -258,7 +262,6 @@ namespace MenuLogueo
                 CargarDataGridView(listaDeProductos);
                 return;
             }
-
         }
 
         private void FrmVenta_FormClosing(object sender, FormClosingEventArgs e)

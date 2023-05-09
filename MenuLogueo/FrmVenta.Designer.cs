@@ -28,17 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmVenta));
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             dgvProductos = new DataGridView();
-            nombreProducto = new DataGridViewTextBoxColumn();
-            tipoDeAnimal = new DataGridViewTextBoxColumn();
-            stockDisponible = new DataGridViewTextBoxColumn();
-            precioPorKilo = new DataGridViewTextBoxColumn();
-            Cantidad = new DataGridViewTextBoxColumn();
             txtNombreCliente = new TextBox();
             lbMontoMaximo = new Label();
             btnComprar = new Button();
@@ -54,6 +49,11 @@
             pictureBox2 = new PictureBox();
             lbNombreCliente = new Label();
             txtMontoIngresado = new TextBox();
+            nombreProducto = new DataGridViewTextBoxColumn();
+            tipoDeAnimal = new DataGridViewTextBoxColumn();
+            stockDisponible = new DataGridViewTextBoxColumn();
+            precioPorKilo = new DataGridViewTextBoxColumn();
+            Cantidad = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dgvProductos).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
@@ -65,30 +65,30 @@
             dgvProductos.AllowUserToDeleteRows = false;
             dgvProductos.AllowUserToResizeColumns = false;
             dgvProductos.AllowUserToResizeRows = false;
-            dataGridViewCellStyle5.SelectionBackColor = Color.MistyRose;
-            dgvProductos.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle1.SelectionBackColor = Color.MistyRose;
+            dgvProductos.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             dgvProductos.BackgroundColor = Color.White;
             dgvProductos.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
             dgvProductos.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = Color.Peru;
-            dataGridViewCellStyle6.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
-            dataGridViewCellStyle6.ForeColor = Color.Black;
-            dataGridViewCellStyle6.SelectionBackColor = Color.SandyBrown;
-            dataGridViewCellStyle6.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.True;
-            dgvProductos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = Color.Peru;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
+            dataGridViewCellStyle2.ForeColor = Color.Black;
+            dataGridViewCellStyle2.SelectionBackColor = Color.SandyBrown;
+            dataGridViewCellStyle2.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            dgvProductos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             dgvProductos.ColumnHeadersHeight = 29;
             dgvProductos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             dgvProductos.Columns.AddRange(new DataGridViewColumn[] { nombreProducto, tipoDeAnimal, stockDisponible, precioPorKilo, Cantidad });
-            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = SystemColors.Window;
-            dataGridViewCellStyle8.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle8.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle8.SelectionBackColor = Color.PeachPuff;
-            dataGridViewCellStyle8.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle8.WrapMode = DataGridViewTriState.False;
-            dgvProductos.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = SystemColors.Window;
+            dataGridViewCellStyle4.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle4.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = Color.PeachPuff;
+            dataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.False;
+            dgvProductos.DefaultCellStyle = dataGridViewCellStyle4;
             dgvProductos.Location = new Point(12, 331);
             dgvProductos.Name = "dgvProductos";
             dgvProductos.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
@@ -98,43 +98,6 @@
             dgvProductos.TabIndex = 1;
             dgvProductos.CellBeginEdit += dgvProductos_CellBeginEdit;
             dgvProductos.CellClick += dgvProductos_CellClick;
-            // 
-            // nombreProducto
-            // 
-            nombreProducto.HeaderText = "Nombre Producto";
-            nombreProducto.MinimumWidth = 6;
-            nombreProducto.Name = "nombreProducto";
-            nombreProducto.Width = 155;
-            // 
-            // tipoDeAnimal
-            // 
-            tipoDeAnimal.HeaderText = "Tipo de carne";
-            tipoDeAnimal.MinimumWidth = 6;
-            tipoDeAnimal.Name = "tipoDeAnimal";
-            tipoDeAnimal.Width = 150;
-            // 
-            // stockDisponible
-            // 
-            stockDisponible.HeaderText = "Stock disponible";
-            stockDisponible.MinimumWidth = 6;
-            stockDisponible.Name = "stockDisponible";
-            stockDisponible.Width = 157;
-            // 
-            // precioPorKilo
-            // 
-            dataGridViewCellStyle7.NullValue = null;
-            precioPorKilo.DefaultCellStyle = dataGridViewCellStyle7;
-            precioPorKilo.HeaderText = "Precio";
-            precioPorKilo.MinimumWidth = 6;
-            precioPorKilo.Name = "precioPorKilo";
-            precioPorKilo.Width = 105;
-            // 
-            // Cantidad
-            // 
-            Cantidad.HeaderText = "Cantidad en Kg";
-            Cantidad.MinimumWidth = 6;
-            Cantidad.Name = "Cantidad";
-            Cantidad.Width = 125;
             // 
             // txtNombreCliente
             // 
@@ -294,6 +257,44 @@
             txtMontoIngresado.Size = new Size(170, 27);
             txtMontoIngresado.TabIndex = 18;
             // 
+            // nombreProducto
+            // 
+            nombreProducto.HeaderText = "Nombre Producto";
+            nombreProducto.MinimumWidth = 6;
+            nombreProducto.Name = "nombreProducto";
+            nombreProducto.Width = 155;
+            // 
+            // tipoDeAnimal
+            // 
+            tipoDeAnimal.HeaderText = "Tipo de carne";
+            tipoDeAnimal.MinimumWidth = 6;
+            tipoDeAnimal.Name = "tipoDeAnimal";
+            tipoDeAnimal.Width = 150;
+            // 
+            // stockDisponible
+            // 
+            stockDisponible.HeaderText = "Stock disponible";
+            stockDisponible.MinimumWidth = 6;
+            stockDisponible.Name = "stockDisponible";
+            stockDisponible.Width = 157;
+            // 
+            // precioPorKilo
+            // 
+            dataGridViewCellStyle3.NullValue = null;
+            precioPorKilo.DefaultCellStyle = dataGridViewCellStyle3;
+            precioPorKilo.HeaderText = "Precio";
+            precioPorKilo.MinimumWidth = 6;
+            precioPorKilo.Name = "precioPorKilo";
+            precioPorKilo.Width = 105;
+            // 
+            // Cantidad
+            // 
+            Cantidad.HeaderText = "Cantidad en Kg";
+            Cantidad.MinimumWidth = 6;
+            Cantidad.Name = "Cantidad";
+            Cantidad.Resizable = DataGridViewTriState.True;
+            Cantidad.Width = 125;
+            // 
             // FrmVenta
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -346,12 +347,12 @@
         private Button btnBuscar;
         private ComboBox cmbTipoDeCorte;
         private PictureBox pictureBox2;
+        private Label lbNombreCliente;
+        private TextBox txtMontoIngresado;
         private DataGridViewTextBoxColumn nombreProducto;
         private DataGridViewTextBoxColumn tipoDeAnimal;
         private DataGridViewTextBoxColumn stockDisponible;
         private DataGridViewTextBoxColumn precioPorKilo;
         private DataGridViewTextBoxColumn Cantidad;
-        private Label lbNombreCliente;
-        private TextBox txtMontoIngresado;
     }
 }
