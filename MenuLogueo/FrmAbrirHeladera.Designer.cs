@@ -334,7 +334,7 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Ver Productos";
             FormClosing += FrmAbrirHeladera_FormClosing;
-            Load += FrmHeladera_Load;
+            Load += FrmAbrirHeladera_Load;
             ((System.ComponentModel.ISupportInitialize)dgvProductos).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);

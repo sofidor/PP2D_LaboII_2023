@@ -27,17 +27,16 @@ namespace MenuLogueo
             this.FormClosing += new FormClosingEventHandler(FrmAbrirHeladera_FormClosing);//cerrar form desde la cruz
         }
 
-        public void CargarDataGridView(List<Producto> listaDeProductos)
+        public void CargarDataGridView()
         {
             foreach (Producto producto in listaDeProductos)
             {
                 dgvProductos.Rows.Add(producto.NombreProducto, producto.TipoDeAnimal, producto.StockDisponible, producto.PrecioPorKilo, 0);
             }
         }
-
-        private void FrmHeladera_Load(object sender, EventArgs e)
+        private void FrmAbrirHeladera_Load(object sender, EventArgs e)
         {
-            CargarDataGridView(Carniceria.ObtenerProductos());
+            CargarDataGridView();
         }
 
         private void limpiar()
@@ -183,11 +182,6 @@ namespace MenuLogueo
             this.Hide();
         }
 
-        private void btnSalir_Click_1(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-
         private void FrmAbrirHeladera_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (e.CloseReason == CloseReason.UserClosing)
@@ -197,5 +191,8 @@ namespace MenuLogueo
                 Application.Exit(); // Cerrar la aplicación
             }
         }
+
+        
+
     }
 }

@@ -22,7 +22,7 @@ namespace BibliotecaDeClases
         /// </summary>
         private static void CargarProductos()
         {
-            listaDeProductos.Add(new Producto("Carne picada", "vaca", 0, 2300,0));
+            listaDeProductos.Add(new Producto("Carne picada", "vaca", 10, 2300,0));
             listaDeProductos.Add(new Producto("Milanesas", "pollo", 50, 1300, 0));
             listaDeProductos.Add(new Producto("Milanesas", "vaca", 50, 1300, 0));
             listaDeProductos.Add(new Producto("Chuletas", "cerdo", 75, 2300, 0));

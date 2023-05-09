@@ -273,7 +273,5 @@ namespace MenuLogueo
                 Application.Exit(); // Cerrar la aplicación
             }
         }
-
-
     }
 }

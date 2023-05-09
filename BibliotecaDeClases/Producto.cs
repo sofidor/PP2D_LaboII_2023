@@ -15,15 +15,7 @@
             this.stockDisponible = stockDisponible;
             this.precioPorKilo = precioPorKilo;
             this.cantidadSeleccionada = 0;
-        }
-
-        public Producto(string nombreProducto, string tipoDeAnimal, double precioPorKilo, int cantidadSeleccionada)
-        {
-            this.nombreProducto = nombreProducto;
-            this.tipoDeAnimal = tipoDeAnimal;          
-            this.precioPorKilo = precioPorKilo;
-            this.cantidadSeleccionada = cantidadSeleccionada;
-        }
+        }       
 
         public string NombreProducto
         {

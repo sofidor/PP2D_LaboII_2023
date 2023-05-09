@@ -57,8 +57,6 @@ namespace MenuLogueo
                 cbClientes.SelectedIndex = 3;
             }
         }
-
-
         private void btnVolver_Click_1(object sender, EventArgs e)
         {
             FrmHeladera heladeraForm = new FrmHeladera();
