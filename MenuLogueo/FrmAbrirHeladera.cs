@@ -148,7 +148,7 @@ namespace MenuLogueo
             int indiceFilaSeleccionada = dgvProductos.CurrentRow.Index;
 
             //eliminar el producto de la lista
-            Carniceria.EliminarProducto(indiceFilaSeleccionada);
+            Carniceria.EliminarProducto(indiceFilaSeleccionada);//PORFI
 
             //eliminar la fila del DataGridView
             dgvProductos.Rows.RemoveAt(indiceFilaSeleccionada);
