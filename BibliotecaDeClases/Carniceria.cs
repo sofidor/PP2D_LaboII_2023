@@ -11,43 +11,34 @@ namespace BibliotecaDeClases
         private static List<Producto> listaDeProductos = new List<Producto>();
         private static List<Venta> listaVentas = new List<Venta>(); // Inicializar lista de ventas
         private static List<Cliente> listaDeClientes = new List<Cliente>();
+        private static List<Vendedor> listaDeVendedores = new List<Vendedor>();    
 
         static Carniceria()
         {                  
             CargarProductos(); //inicializo las listas
             CargarClientes();
+            CargarVendedores();
+           
         }
         /// <summary>
         /// carga productos a la lista de productos
         /// </summary>
         private static void CargarProductos()
         {
-            listaDeProductos.Add(new Producto("Carne picada", "vaca", 10, 2300,0));
-            listaDeProductos.Add(new Producto("Milanesas", "pollo", 50, 1300, 0));
-            listaDeProductos.Add(new Producto("Milanesas", "vaca", 50, 1300, 0));
-            listaDeProductos.Add(new Producto("Chuletas", "cerdo", 75, 2300, 0));
-            listaDeProductos.Add(new Producto("Bistec", "vaca", 150, 3000, 0));
-            listaDeProductos.Add(new Producto("Chorizo", "cerdo", 50, 1500, 0));
-            listaDeProductos.Add(new Producto("Alitas de pollo", "pollo", 60, 1100, 0));
-            listaDeProductos.Add(new Producto("Costillas", "cerdo", 100, 2500, 0));
-            listaDeProductos.Add(new Producto("Solomillo", "vaca", 200, 4000, 0));
-            listaDeProductos.Add(new Producto("Muslos de pollo", "pollo", 70, 1200, 0));
-            listaDeProductos.Add(new Producto("Salchichón", "cerdo", 30, 1000, 0));
-            listaDeProductos.Add(new Producto("Medallones", "vaca", 30, 1000, 0));
-            listaDeProductos.Add(new Producto("Lomo", "vaca", 30, 1000, 0));
-            listaDeProductos.Add(new Producto("Cuadrada", "vaca", 30, 1000, 0));
-            listaDeProductos.Add(new Producto("Pechito", "cerdo", 30, 1000, 0));
-            listaDeProductos.Add(new Producto("Medallones", "pollo", 60, 1100, 0));
+            // Obtener la lista de productos
+            listaDeProductos = ProductosDAO.Leer();          
         }
         /// <summary>
         /// carga clientes a la lista de clientes
         /// </summary>
         public static void CargarClientes()
         {
-            listaDeClientes.Add(new Cliente("lionelMartinez@gmail.com","abc123","Lionel Martinez", 85000, eMetodoPago.MercadoPago));
-            listaDeClientes.Add(new Cliente("daniFernandez@gmail.com","dfg234","Daniela Fernandez", 160000, eMetodoPago.Efectivo));
-            listaDeClientes.Add(new Cliente("juanigomez@gmail.com","hij456","Juan Ignacio Gomez", 35000, eMetodoPago.TarjetaDeCredito));
-            listaDeClientes.Add(new Cliente("jazSerna@gmail.com","klm6789","Jazmin Serna", 85000, eMetodoPago.TarjetaDeCredito));
+            listaDeClientes = UsuarioDAO.LeerCliente();
+        }
+
+        public static void CargarVendedores() 
+        {
+            listaDeVendedores = UsuarioDAO.LeerVendedor();
         }
         /// <summary>
         /// obtiene la lista de productos
@@ -65,22 +56,15 @@ namespace BibliotecaDeClases
         {
             return listaDeClientes;
         }
-        /// <summary>
-        /// agrega un producto nuevo a la lista de productos
-        /// </summary>
-        /// <param name="nombre">nombre del producto</param>
-        /// <param name="tipo">tipo de corte del producto</param>
-        /// <param name="stock">stock disponible del producto</param>
-        /// <param name="precio">precio por kilo del producto</param>
-        /// <param name="cantidadSeleccionada">cantidad a comprar del producto</param>
-        public static void AgregarProducto(string nombre, string tipo, int stock, double precio,int cantidadSeleccionada)
+        public static List<Venta> ObtenerHistorialVentas()
         {
-            listaDeProductos.Add(new Producto(nombre, tipo, stock, precio, cantidadSeleccionada));
+            return listaVentas;
         }
-        public static void EliminarProducto(int indice)
+        public static List<Vendedor> ObtenerVendedores()
         {
-            listaDeProductos.RemoveAt(indice);
+            return listaDeVendedores;
         }
+
         /// <summary>
         /// Filtra la lista de los productos segun el tipo de animal , y la retorna
         /// </summary>
@@ -100,6 +84,16 @@ namespace BibliotecaDeClases
 
             return lista;
         }
+        /// <summary>
+        /// agrega una venta a la lista de ventas
+        /// </summary>
+        /// <param name="venta">venta a agregar</param>
+        public static void CargarVenta(Venta venta)
+        {
+            listaVentas.Clear();
+            listaVentas.Add(venta);
+        }
+
       /// <summary>
       /// obtiene la lista de ventas
       /// </summary>
@@ -108,14 +102,11 @@ namespace BibliotecaDeClases
         {
             return listaVentas;
         }       
-        /// <summary>
-        /// agrega una venta a la lista de ventas
-        /// </summary>
-        /// <param name="venta">venta a agregar</param>
-        public static void CargarVenta(Venta venta)
+
+        public static void CargarDBHistorial()
         {
-            listaVentas.Add(venta);
-        }      
+            historialVentasDAO.insertarVentas(listaVentas);
+        }
 
     }
 }

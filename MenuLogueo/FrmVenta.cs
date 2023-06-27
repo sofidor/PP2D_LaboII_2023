@@ -15,10 +15,10 @@ namespace MenuLogueo
     public partial class FrmVenta : Form
     {
         List<Producto> productosSeleccionados = new List<Producto>();
-        List<Producto> listaDeProductos;
-        List<Venta> ventas = new List<Venta>();
+        List<Producto> listaDeProductos;        
+        private string nombreCliente;
 
-        public FrmVenta()
+        public FrmVenta(string nombreCliente)
         {
             InitializeComponent();
             listaDeProductos = Carniceria.ObtenerProductos();
@@ -28,7 +28,9 @@ namespace MenuLogueo
             this.FormBorderStyle = FormBorderStyle.FixedDialog; //que no pueda agrandarse desde los lados
             this.FormClosing += new FormClosingEventHandler(FrmVenta_FormClosing);//cerrar form desde la cruz
             dgvProductos.CellBeginEdit += new DataGridViewCellCancelEventHandler(dgvProductos_CellBeginEdit); //editar la celda cantidad
-
+            dgvProductos.CellValidating += new DataGridViewCellValidatingEventHandler(dgvProductos_CellValidating);
+            this.nombreCliente = nombreCliente;
+            txtNombreCliente.Text = nombreCliente;
         }
 
         public void CargarDataGridView(List<Producto> listaDeProductos)
@@ -40,12 +42,12 @@ namespace MenuLogueo
         }
 
         private void FrmVenta_Load(object sender, EventArgs e)
-        {           
+        {
             cmbFormaDePago.Items.Add("Tarjeta de crédito");
             cmbFormaDePago.Items.Add("Tarjeta de debito");
             cmbFormaDePago.Items.Add("Mercado pago");
             cmbFormaDePago.Items.Add("Efectivo");
-            
+
             cmbFormaDePago.SelectedIndex = 3;// Establecer una opción seleccionada por defecto
 
             cmbTipoDeCorte.Items.Add("vaca");
@@ -57,15 +59,15 @@ namespace MenuLogueo
         }
 
         private void dgvProductos_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
-        {            
+        {
             DataGridViewColumn column = dgvProductos.Columns[e.ColumnIndex];//obtener la columna actual
-            
+
             if (column.Name == "Cantidad")
-            {               
+            {
                 e.Cancel = false; // Permitir la edición de la celda "cantidad"
             }
             else
-            {                
+            {
                 e.Cancel = true;// Cancelar la edición de cualquier otra celda
             }
         }
@@ -75,7 +77,6 @@ namespace MenuLogueo
             if (e.RowIndex >= 0) // asegurarse de que se haga clic en una fila valida
             {
                 DataGridViewRow row = this.dgvProductos.Rows[e.RowIndex];
-
                 // obtener el producto seleccionado
                 Producto producto = new Producto(
                      row.Cells["nombreProducto"].Value.ToString(),
@@ -116,6 +117,20 @@ namespace MenuLogueo
                 }
             }
             return montoTotal;
+        }
+        private void dgvProductos_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+        {
+            if (dgvProductos.Columns[e.ColumnIndex].Name == "Cantidad")
+            {
+                string cantidad = e.FormattedValue.ToString();
+                int cantidadSeleccionada;
+
+                if (!int.TryParse(cantidad, out cantidadSeleccionada) || cantidadSeleccionada < 0)
+                {
+                    MessageBox.Show("La cantidad seleccionada debe ser un número entero mayor a cero.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    e.Cancel = true;
+                }
+            }
         }
 
         private void btnComprar_Click(object sender, EventArgs e)
@@ -178,23 +193,18 @@ namespace MenuLogueo
                         return;
                     }
 
-                    // Verificar si la cantidad seleccionada es mayor a cero
-                    if (cantidadSeleccionada <= 0)
-                    {
-                        MessageBox.Show("La cantidad seleccionada del producto debe ser mayor a cero.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
-                    }
-
                     // Actualizar la cantidad seleccionada del producto
-                    producto.CantidadSeleccionada = cantidadSeleccionada;                    
+                    producto.CantidadSeleccionada = cantidadSeleccionada;
                     producto.StockDisponible -= cantidadSeleccionada;// Restar la cantidad seleccionada del stock disponible
 
                     // Actualizar la celda de StockDisponible en el DataGridView
                     DataGridViewCell stockCell = row.Cells["StockDisponible"];
                     stockCell.Value = producto.StockDisponible;
 
+                    ProductosDAO.ActualizarStockEnBaseDeDatos(producto);
+
                     // Agregar el producto a la lista de productos comprados
-                    productosComprados.Add(producto);
+                   productosComprados.Add(producto);
                 }
 
                 // Restarle el monto gastado
@@ -210,7 +220,7 @@ namespace MenuLogueo
                     double recargo = montoTotal * 0.05;
                     montoTotal += recargo;
 
-                }
+                }                
 
                 // Mostrar la factura
                 FrmFactura facturaForm = new FrmFactura(productosComprados, montoTotal, montoFinal, nombrecliente, metodoDePago, "La moderna");
@@ -219,6 +229,9 @@ namespace MenuLogueo
                 // Crear un nuevo objeto Venta para el producto vendido y agregarlo a la lista de ventas
                 Venta venta = new Venta(productosComprados, nombrecliente);
                 Carniceria.CargarVenta(venta);
+
+                Carniceria.CargarDBHistorial();
+
             }
             else
             {
@@ -240,7 +253,7 @@ namespace MenuLogueo
             string tipoCorte = cmbTipoDeCorte.SelectedItem.ToString();
 
             // Filtrar los productos por tipo de corte utilizando el método BuscarPorTipoCorte
-            List<Producto> productosFiltrados = Carniceria.BuscarPorTipoCorte(tipoCorte);
+            List<Producto> productosFiltrados = listaDeProductos.BuscarPorTipoCorte(tipoCorte);
 
             dgvProductos.Rows.Clear();
             // Asignar la lista temporal al DataGridView para mostrar los productos filtrados
@@ -263,5 +276,6 @@ namespace MenuLogueo
                 Application.Exit(); // Cerrar la aplicación
             }
         }
+
     }
 }

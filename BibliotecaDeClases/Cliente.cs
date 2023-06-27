@@ -20,6 +20,7 @@ namespace BibliotecaDeClases
         private string nombreCompleto;
         private double montoDisponible;
         private eMetodoPago metodoDePago;
+        private string metodoPago;
 
         public Cliente(string mailUsuario, string contraseñaUsuario, string nombreCompleto, double montoDisponible , eMetodoPago metodoDePago)
              : base(mailUsuario, contraseñaUsuario)
@@ -27,6 +28,14 @@ namespace BibliotecaDeClases
             this.nombreCompleto = nombreCompleto;
             this.montoDisponible = montoDisponible;
             this.metodoDePago = metodoDePago;
+        }
+
+        public Cliente(string mailUsuario, string contraseñaUsuario, string nombreCompleto, double montoDisponible, string metodoPago)
+     : base(mailUsuario, contraseñaUsuario)
+        {
+            this.nombreCompleto = nombreCompleto;
+            this.montoDisponible = montoDisponible;
+            this.metodoPago = metodoPago;
         }
         public string NombreCompleto
         {
@@ -52,15 +61,25 @@ namespace BibliotecaDeClases
         {
             get { return metodoDePago; }
         }
+
+        public string  MetodoPago
+        {
+            get { return metodoPago; }
+        }
         /// <summary>
         /// valida si un nombre contiene solo letras
         /// </summary>
         /// <param name="nombre">nombre que se valida</param>
         /// <returns>retorna true si el nombre cumple o false si no lo hace</returns>
         public static bool ValidarNombre(string nombre)
-        {            
-            Regex regex = new Regex("^[a-zA-Z]+$");            
+        {
+            Regex regex = new Regex("^[a-zA-Z ]+$"); 
             return regex.IsMatch(nombre);
+        }
+
+        public override string ToString()
+        {
+            return $"Mail: {NombreCompleto}, pass: {ContraseñaUsuario}, nombre: {NombreCompleto}, monto: {MontoDisponible}, metodo pago: {MetodoPago}";
         }
     }
 }

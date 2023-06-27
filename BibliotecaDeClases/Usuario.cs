@@ -9,18 +9,15 @@ namespace BibliotecaDeClases
     public abstract class Usuario //la clase "Usuario" es abstracta y no se puede instanciar directamente,
                                   //sino que debe ser heredada por otras clases que definan sus propios atributos y métodos.
     {
-        protected string mailUsuario;
-        protected string contraseñaUsuario;
+        private string mailUsuario;
+        private string contraseñaUsuario;
 
-        protected Usuario(string nombreUsuario, string contraseñaUsuario)
+        protected Usuario(string mailUsuario, string contraseñaUsuario)
         {
-            this.mailUsuario = nombreUsuario;
+            this.mailUsuario = mailUsuario;
             this.contraseñaUsuario = contraseñaUsuario;
         }
-
-        public string NombreUsuario
-        {
-            get { return this.mailUsuario; }
-        }
+        public string MailUsuario { get => mailUsuario; set => mailUsuario = value; }
+        public string ContraseñaUsuario { get => contraseñaUsuario; set => contraseñaUsuario = value; }
     }
 }

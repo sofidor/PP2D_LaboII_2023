@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using BibliotecaDeClases;
@@ -29,14 +30,23 @@ namespace MenuLogueo
 
         public void CargarDataGridView()
         {
+            // Limpiar el DataGridView antes de volver a cargar los datos
+            dgvProductos.Rows.Clear();
+
+            // Obtener los datos actualizados de la base de datos
+            List<Producto> listaDeProductos = Carniceria.ObtenerProductos();
+
+            // Agregar los productos al DataGridView
             foreach (Producto producto in listaDeProductos)
             {
-                dgvProductos.Rows.Add(producto.NombreProducto, producto.TipoDeAnimal, producto.StockDisponible, producto.PrecioPorKilo, 0);
+                dgvProductos.Rows.Add(producto.Id, producto.NombreProducto, producto.TipoDeAnimal, producto.StockDisponible, producto.PrecioPorKilo);
             }
         }
         private void FrmAbrirHeladera_Load(object sender, EventArgs e)
         {
             CargarDataGridView();
+            btnDeserializarJson.Enabled = false;
+            btnDeserializarXml.Enabled = false;
         }
 
         private void limpiar()//limpio los campos
@@ -47,7 +57,7 @@ namespace MenuLogueo
             txtStock.Text = "";
         }
         private void dgvProductos_CellClick_1(object sender, DataGridViewCellEventArgs e) //muestra detalles
-        {            
+        {
             int index = e.RowIndex;//obtener el índice de la fila seleccionada
 
             if (index >= 0)
@@ -63,7 +73,7 @@ namespace MenuLogueo
                     txtDetalle.Enabled = true;
                     txtPrecio.Enabled = true;
                     txtStock.Enabled = true;
-                    
+
                     limpiar();// limpiar los campos de texto
 
                     btnModificar.Enabled = false; //deshabilito
@@ -72,11 +82,11 @@ namespace MenuLogueo
                 }
                 else //si la celda seleccionada contiene datos
                 {
-                    txtProducto.Text = selectedRow.Cells[0].Value.ToString();
-                    txtDetalle.Text = selectedRow.Cells[1].Value.ToString();
-                    txtStock.Text = selectedRow.Cells[2].Value.ToString();
-                    txtPrecio.Text = selectedRow.Cells[3].Value.ToString();
-                    
+                    txtProducto.Text = selectedRow.Cells[1].Value.ToString();
+                    txtDetalle.Text = selectedRow.Cells[2].Value.ToString();
+                    txtStock.Text = selectedRow.Cells[3].Value.ToString();
+                    txtPrecio.Text = selectedRow.Cells[4].Value.ToString();
+
                     posicion = index;//guardar la posición de la fila seleccionada
 
                     btnModificar.Enabled = true;
@@ -87,74 +97,180 @@ namespace MenuLogueo
 
         private void btnModificar_Click(object sender, EventArgs e)
         {
-            //obtener los nuevos valores de los controles de edición
+            // Obtener los nuevos valores de los controles de edición
             string nuevoNombre = txtProducto.Text;
-            string nuvoTipo = txtDetalle.Text;
+            string nuevoTipo = txtDetalle.Text;
             double nuevoPrecio = double.Parse(txtPrecio.Text);
             int nuevoStock = int.Parse(txtStock.Text);
 
-            //obtener la fila seleccionada y el índice correspondiente
+            // Obtener la fila seleccionada y el índice correspondiente
             DataGridViewRow filaSeleccionada = dgvProductos.CurrentRow;
             int indiceFilaSeleccionada = filaSeleccionada.Index;
 
-            //actualizar los datos del producto en la lista
-            Producto productoSeleccionado = listaDeProductos[indiceFilaSeleccionada];
-            productoSeleccionado.NombreProducto = nuevoNombre;
-            productoSeleccionado.TipoDeAnimal = nuvoTipo;
-            productoSeleccionado.PrecioPorKilo = nuevoPrecio;
-            productoSeleccionado.StockDisponible = nuevoStock;
+            try
+            {
+                // Mostrar cuadro de diálogo de confirmación
+                DialogResult resultado = MessageBox.Show("¿Desea modificar el producto?", "Confirmar modificación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-            //actualizar los datos en el DataGridView
-            filaSeleccionada.Cells["nombreProducto"].Value = nuevoNombre;
-            filaSeleccionada.Cells["tipoDeAnimal"].Value = nuvoTipo;
-            filaSeleccionada.Cells["precioPorKilo"].Value = nuevoPrecio;
-            filaSeleccionada.Cells["stockDisponible"].Value = nuevoStock;
+                if (resultado == DialogResult.Yes)
+                {
+                    // Actualizar los datos del producto en la lista
+                    Producto productoSeleccionado = listaDeProductos[indiceFilaSeleccionada];
+                    productoSeleccionado.NombreProducto = nuevoNombre;
+                    productoSeleccionado.TipoDeAnimal = nuevoTipo;
+                    productoSeleccionado.PrecioPorKilo = nuevoPrecio;
+                    productoSeleccionado.StockDisponible = nuevoStock;
 
-            //limpiar los controles de edición
-            limpiar();            
-            dgvProductos.ClearSelection();
+                    // Llamar al método Modificar de ProductosDAO para actualizar el producto en la base de datos
+                    ProductosDAO.Modificar(productoSeleccionado);
+
+                    // Limpiar los controles de edición
+                    limpiar();
+                    dgvProductos.ClearSelection();
+
+                    MessageBox.Show("El producto ha sido modificado con éxito.", "Modificación exitosa", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    // Volver a cargar los datos del SQL en el DataGridView
+                    //listaDeProductos = Carniceria.ObtenerProductos();
+                    CargarDataGridView();
+                }
+                else
+                {
+                    MessageBox.Show("Operación cancelada.", "Cancelado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al modificar el producto: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
-            string producto, tipo, stock, valor;
-
-            producto = txtProducto.Text;
-            tipo = txtDetalle.Text;
-            stock = txtStock.Text;
-            valor = txtPrecio.Text;
+            string producto = txtProducto.Text;
+            string tipo = txtDetalle.Text;
+            string stock = txtStock.Text;
+            string valor = txtPrecio.Text;
 
             if (!string.IsNullOrEmpty(producto) && !string.IsNullOrEmpty(tipo) && !string.IsNullOrEmpty(stock) && !string.IsNullOrEmpty(valor))
             {
-                //agregar el nuevo producto a la lista de productos
-                Carniceria.AgregarProducto(producto, tipo, int.Parse(stock), double.Parse(valor), 0);
+                if (!EsString(producto))
+                {
+                    MessageBox.Show("Error en el valor ingresado en el campo Producto", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
 
-                //agregar la nueva fila con el índice y los demás datos
-                dgvProductos.Rows.Add(producto, tipo, stock, valor);
-                limpiar();
-                txtProducto.Focus();
+                if (!EsString(tipo))
+                {
+                    MessageBox.Show("Error en el valor ingresado en el campo Tipo", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
 
-                btnModificar.Enabled = false;                
-                dgvProductos.ClearSelection();//deseleccionar la fila
+                int stockInt;
+                if (!int.TryParse(stock, out stockInt))
+                {
+                    MessageBox.Show("Error en el valor ingresado en el campo Stock", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                float valorFloat;
+                if (!float.TryParse(valor, out valorFloat))
+                {
+                    MessageBox.Show("Error en el valor ingresado en el campo Valor", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                // Crear un nuevo objeto Producto con los datos ingresados
+                Producto nuevoProducto = new Producto(producto, tipo, stockInt, valorFloat);
+
+                try
+                {
+                    // Mostrar cuadro de diálogo de confirmación
+                    DialogResult resultado = MessageBox.Show("¿Desea crear el producto?", "Confirmar creación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                    if (resultado == DialogResult.Yes)
+                    {
+                        // Llamar al método Guardar para insertar el nuevo producto en la base de datos
+                        ProductosDAO.Guardar(nuevoProducto);
+
+                        // Agregar el nuevo producto a la lista actualizada
+                        listaDeProductos.Add(nuevoProducto);
+                        limpiar();
+                        txtProducto.Focus();
+
+                        btnModificar.Enabled = false;
+                        dgvProductos.ClearSelection(); // Deseleccionar la fila
+
+                        MessageBox.Show("El producto ha sido agregado con éxito.", "Creación exitosa", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        // Volver a cargar los datos del SQL en el DataGridView
+                        //listaDeProductos = Carniceria.ObtenerProductos();
+                        CargarDataGridView();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Operación cancelada.", "Cancelado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al guardar el producto: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
             else
             {
-                MessageBox.Show("Por favor ingrese todos los valores requeridos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Por favor, ingrese todos los valores requeridos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void btnEliminar_Click(object sender, EventArgs e)
         {
-            //obtener el índice de la fila seleccionada
-            int indiceFilaSeleccionada = dgvProductos.CurrentRow.Index;
+            // Obtener la fila seleccionada
+            DataGridViewRow filaSeleccionada = dgvProductos.CurrentRow;
 
-            //eliminar el producto de la lista
-            Carniceria.EliminarProducto(indiceFilaSeleccionada);//PORFI
+            if (filaSeleccionada != null)
+            {
+                // Obtener el nombre del producto en la fila seleccionada (asumiendo que está en la segunda columna)
+                //string nombreProducto = filaSeleccionada.Cells[1].Value.ToString();
+                int idProducto = Convert.ToInt32(filaSeleccionada.Cells[0].Value);
 
-            //eliminar la fila del DataGridView
-            dgvProductos.Rows.RemoveAt(indiceFilaSeleccionada);
-            
-            limpiar();           
-            dgvProductos.ClearSelection();
+
+                try
+                {
+                    // Mostrar cuadro de diálogo de confirmación
+                    DialogResult resultado = MessageBox.Show("¿Desea eliminar el producto?", "Confirmar eliminación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                    if (resultado == DialogResult.Yes)
+                    {
+                        // Eliminar el producto de la base de datos por nombre
+                        ProductosDAO.Eliminar(idProducto);
+
+                        // Eliminar la fila del DataGridView
+                        //dgvProductos.Rows.Remove(filaSeleccionada);
+
+                        limpiar();
+                        dgvProductos.ClearSelection();
+
+                        MessageBox.Show("El producto ha sido eliminado con éxito.", "Eliminación exitosa", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        // Volver a cargar los datos del SQL en el DataGridView
+                        CargarDataGridView();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Operación cancelada.", "Cancelado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al eliminar el producto: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private bool EsString(string valor)
+        {
+            // Verificar si el valor es de tipo string y contiene solo letras
+            return !string.IsNullOrEmpty(valor) && Regex.IsMatch(valor, @"^[a-zA-Z]+$");
         }
 
         private void btnVolver_Click(object sender, EventArgs e)
@@ -172,7 +288,44 @@ namespace MenuLogueo
                 e.Cancel = false; // Permitir el cierre
                 Application.Exit(); // Cerrar la aplicación
             }
-        }       
+        }
 
+        private void btnSerializarJson_Click(object sender, EventArgs e)
+        {
+            List<Producto> listaDeProductos = Carniceria.ObtenerProductos();
+            Producto serializer = new Producto();
+            serializer.SerializarJson(listaDeProductos);
+            btnDeserializarJson.Enabled = true;
+            MessageBox.Show("La lista de productos se ha serializado correctamente.", "Serialización exitosa", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void btnSerializarXml_Click(object sender, EventArgs e)
+        {
+            List<Producto> listaDeProductos = Carniceria.ObtenerProductos();
+            Producto serializer = new Producto();
+            serializer.SerializarXml(listaDeProductos);
+            btnDeserializarXml.Enabled = true;
+            MessageBox.Show("La lista de productos se ha serializado correctamente.", "Serialización exitosa", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void btnDeserializarJson_Click(object sender, EventArgs e)
+        {
+            Producto producto = new Producto();
+            string productosDeserializados = producto.DeserializarJson();
+
+            FrmDeserializacionJson formSecundario = new FrmDeserializacionJson();
+            formSecundario.MostrarDatos(productosDeserializados);
+            formSecundario.Show();
+        }
+
+        private void btnDeserializarXml_Click(object sender, EventArgs e)
+        {
+            Producto producto = new Producto();
+            string productosDeserializados = producto.DeserializarXml();
+
+            FrmDeserializarXml formSecundario = new FrmDeserializarXml();
+            formSecundario.MostrarDatos(productosDeserializados);
+            formSecundario.Show();
+        }
     }
 }

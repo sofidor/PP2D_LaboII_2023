@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmHistorialVentas));
             dgvProductos = new DataGridView();
             nombreProducto = new DataGridViewTextBoxColumn();
@@ -39,21 +39,25 @@
             btnVolver = new Button();
             lbHistorial = new Label();
             lbHistorialVentas = new Label();
+            btnGuardarTxt = new Button();
+            btnSerializarJson = new Button();
+            btnDeserializarJson = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvProductos).BeginInit();
             SuspendLayout();
             // 
             // dgvProductos
             // 
+            dgvProductos.AllowUserToAddRows = false;
             dgvProductos.AllowUserToDeleteRows = false;
             dgvProductos.BackgroundColor = Color.White;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = SystemColors.ActiveCaption;
-            dataGridViewCellStyle1.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
-            dataGridViewCellStyle1.ForeColor = SystemColors.Window;
-            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dgvProductos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = SystemColors.ActiveCaption;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
+            dataGridViewCellStyle2.ForeColor = SystemColors.Window;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            dgvProductos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             dgvProductos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvProductos.Columns.AddRange(new DataGridViewColumn[] { nombreProducto, tipoDeAnimal, precioPorKilo, cantidadSeleccionada, Cliente });
             dgvProductos.EnableHeadersVisualStyles = false;
@@ -139,12 +143,51 @@
             lbHistorialVentas.TabIndex = 29;
             lbHistorialVentas.Text = "HISTORIAL DE VENTAS";
             // 
+            // btnGuardarTxt
+            // 
+            btnGuardarTxt.BackColor = SystemColors.ActiveCaption;
+            btnGuardarTxt.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            btnGuardarTxt.Location = new Point(34, 545);
+            btnGuardarTxt.Name = "btnGuardarTxt";
+            btnGuardarTxt.Size = new Size(151, 42);
+            btnGuardarTxt.TabIndex = 30;
+            btnGuardarTxt.Text = "Guardar en txt";
+            btnGuardarTxt.UseVisualStyleBackColor = false;
+            btnGuardarTxt.Click += btnGuardarTxt_Click;
+            // 
+            // btnSerializarJson
+            // 
+            btnSerializarJson.BackColor = SystemColors.ActiveCaption;
+            btnSerializarJson.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            btnSerializarJson.Location = new Point(219, 545);
+            btnSerializarJson.Name = "btnSerializarJson";
+            btnSerializarJson.Size = new Size(151, 42);
+            btnSerializarJson.TabIndex = 31;
+            btnSerializarJson.Text = "Serializar Json";
+            btnSerializarJson.UseVisualStyleBackColor = false;
+            btnSerializarJson.Click += btnSerializarJson_Click;
+            // 
+            // btnDeserializarJson
+            // 
+            btnDeserializarJson.BackColor = SystemColors.ActiveCaption;
+            btnDeserializarJson.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            btnDeserializarJson.Location = new Point(398, 545);
+            btnDeserializarJson.Name = "btnDeserializarJson";
+            btnDeserializarJson.Size = new Size(151, 42);
+            btnDeserializarJson.TabIndex = 32;
+            btnDeserializarJson.Text = "Deserializar Json";
+            btnDeserializarJson.UseVisualStyleBackColor = false;
+            btnDeserializarJson.Click += btnDeserializarJson_Click;
+            // 
             // FrmHistorialVentas
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
-            ClientSize = new Size(762, 599);
+            ClientSize = new Size(757, 598);
+            Controls.Add(btnDeserializarJson);
+            Controls.Add(btnSerializarJson);
+            Controls.Add(btnGuardarTxt);
             Controls.Add(lbHistorialVentas);
             Controls.Add(lbHistorial);
             Controls.Add(btnVolver);
@@ -154,6 +197,7 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Historial de ventas";
             FormClosing += FrmHistorialVentas_FormClosing;
+            Load += FrmHistorialVentas_Load;
             ((System.ComponentModel.ISupportInitialize)dgvProductos).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -170,5 +214,8 @@
         private DataGridViewTextBoxColumn precioPorKilo;
         private DataGridViewTextBoxColumn cantidadSeleccionada;
         private DataGridViewTextBoxColumn Cliente;
+        private Button btnGuardarTxt;
+        private Button btnSerializarJson;
+        private Button btnDeserializarJson;
     }
 }

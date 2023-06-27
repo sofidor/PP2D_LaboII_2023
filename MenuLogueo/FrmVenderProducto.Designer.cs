@@ -48,6 +48,7 @@
             // 
             // dgvProductos
             // 
+            dgvProductos.AllowUserToAddRows = false;
             dgvProductos.AllowUserToDeleteRows = false;
             dgvProductos.BackgroundColor = SystemColors.ButtonHighlight;
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
@@ -70,6 +71,7 @@
             dgvProductos.TabIndex = 1;
             dgvProductos.CellBeginEdit += dgvProductos_CellBeginEdit;
             dgvProductos.CellClick += dgvProductos_CellClick;
+            dgvProductos.CellValidating += dgvProductos_CellValidating;
             // 
             // nombreProducto
             // 
@@ -116,6 +118,7 @@
             cbClientes.Name = "cbClientes";
             cbClientes.Size = new Size(187, 28);
             cbClientes.TabIndex = 4;
+            cbClientes.SelectedIndexChanged += cbClientes_SelectedIndexChanged;
             // 
             // btnVender
             // 

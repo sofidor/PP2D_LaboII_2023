@@ -2,6 +2,8 @@ using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
 using System.Media;
+using BibliotecaDeClases;
+using System.Threading;
 
 namespace MenuLogueo
 {
@@ -23,53 +25,96 @@ namespace MenuLogueo
         }
         private void btnCliente_Click(object sender, EventArgs e)
         {
-            txtMail.Text = "cliente@mail.com";
-            txtPass.Text = "clave234";
+            txtMail.Text = "jazSerna@gmail.com";
+            txtPass.Text = "klm6789";
         }
         private void btnLoguearse_Click(object sender, EventArgs e)
         {
-            string usuario = this.txtMail.Text;
-            string pass = this.txtPass.Text;
 
-            SoundPlayer sonidoLogueo= new SoundPlayer(); //almacena el audio
-            sonidoLogueo.SoundLocation = "C:/Users/sofia/Downloads/SonidoInicioDeSesion.wav";
-            sonidoLogueo.Play();
+            string correo = txtMail.Text;
+            string contrasena = txtPass.Text;
 
-            // Verificar si el usuario es un vendedor o un cliente
-            if (txtMail.Text == "sergioLopez@gmail.com" && txtPass.Text == "clave123")
+            if (string.IsNullOrWhiteSpace(correo) || string.IsNullOrWhiteSpace(contrasena))
             {
-                // Si el usuario es un vendedor, abrir el formulario Heladera
-                FrmHeladera heladeraForm = new FrmHeladera();
-                heladeraForm.Show();
-                this.Hide();
+                MessageBox.Show("Se deben completar los campos de correo electrónico y contraseña", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
-            else if (txtMail.Text == "cliente@mail.com" && txtPass.Text == "clave234")
+
+            try
             {
-                // Si el usuario es un cliente, abrir el formulario Venta
-                FrmVenta ventaForm = new FrmVenta();
-                ventaForm.Show();
-                this.Hide();
+                // Verificar las credenciales del cliente
+                bool credencialesClienteValidas = UsuarioDAO.VerificarCredencialesCliente(correo, contrasena);
+
+                if (credencialesClienteValidas)
+                {
+                    //// Inicio de sesión exitoso
+                    //string nombreCliente = UsuarioDAO.ObtenerNombreCliente(correo);
+                    //// Las credenciales del cliente son válidas, abrir el formulario de venta
+                    //SoundPlayer sonidoLogueo = new SoundPlayer();
+                    //sonidoLogueo.SoundLocation = "C:/Users/sofia/Downloads/SonidoInicioDeSesion.wav";
+                    //sonidoLogueo.Play();
+
+                    //FrmVenta ventaForm = new FrmVenta(nombreCliente);
+                    //ventaForm.Show();
+                    //this.Hide();
+                    //return;
+
+                    // Inicio de sesión exitoso
+                    string nombreCliente = UsuarioDAO.ObtenerNombreCliente(correo);
+                    SoundPlayer sonidoLogueo = new SoundPlayer();
+                    sonidoLogueo.SoundLocation = "C:/Users/sofia/Downloads/SonidoInicioDeSesion.wav";
+                    sonidoLogueo.Play();
+                    // Las credenciales del cliente son válidas, mostrar mensaje de bienvenida en un hilo separado
+                    Thread hiloBienvenida = new Thread(() =>
+                    {
+                        MessageBox.Show("Bienvenido, " + nombreCliente, "Hola de nuevo!", MessageBoxButtons.OK);
+                    });
+                    hiloBienvenida.Start();
+                   
+                    Thread.Sleep(4000);
+
+                    // Abrir el formulario de venta
+                    FrmVenta ventaForm = new FrmVenta(nombreCliente);
+                    ventaForm.Show();
+                    this.Hide();
+                    return;
+                }
+
+                // Verificar las credenciales del vendedor
+                bool credencialesVendedorValidas = UsuarioDAO.VerificarCredencialesVendedor(correo, contrasena);
+
+                if (credencialesVendedorValidas)
+                {
+                    // Las credenciales del vendedor son válidas, abrir el formulario correspondiente
+                    SoundPlayer sonidoLogueo = new SoundPlayer();
+                    sonidoLogueo.SoundLocation = "C:\\Users\\sofia\\Downloads\\SD_STARTUP_4.wav";
+                    sonidoLogueo.Play();
+                    // Las credenciales del cliente son válidas, mostrar mensaje de bienvenida en un hilo separado
+                    Thread hiloBienvenida = new Thread(() =>
+                    {
+                        MessageBox.Show("Bienvenido a la moderna" , "Hola de nuevo!", MessageBoxButtons.OK);
+                    });
+                    hiloBienvenida.Start();
+
+                    Thread.Sleep(4000);
+
+                    FrmHeladera heladeraForm = new FrmHeladera();
+                    heladeraForm.Show();
+                    this.Hide();
+                    return;
+                }
+
+                // Las credenciales no corresponden ni a cliente ni a vendedor
+                MessageBox.Show("Usuario o contraseña incorrectos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            else
+            catch (Exception ex)
             {
-                if (string.IsNullOrWhiteSpace(txtMail.Text) || string.IsNullOrWhiteSpace(txtPass.Text))
-                {
-                    // Mostrar mensaje de error
-                    string mensaje = "Se deben completar los siguientes campos:";
-                    if (string.IsNullOrWhiteSpace(txtMail.Text))
-                    {
-                        mensaje += "\n- Correo Electrónico";
-                    }
-                    if (string.IsNullOrWhiteSpace(txtPass.Text))
-                    {
-                        mensaje += "\n- Contraseña";
-                    }
-                    MessageBox.Show(mensaje, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                else
-                {
-                    MessageBox.Show("Usuario o contraseña incorrectos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                MessageBox.Show("Error de conexión a la base de datos: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                txtMail.Clear();
+                txtPass.Clear();
             }
         }
 

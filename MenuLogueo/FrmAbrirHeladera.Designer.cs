@@ -31,6 +31,7 @@
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmAbrirHeladera));
             dgvProductos = new DataGridView();
+            id = new DataGridViewTextBoxColumn();
             nombreProducto = new DataGridViewTextBoxColumn();
             tipoDeAnimal = new DataGridViewTextBoxColumn();
             stockDisponible = new DataGridViewTextBoxColumn();
@@ -53,6 +54,10 @@
             btnAgregar = new Button();
             btnEliminar = new Button();
             btnVolver = new Button();
+            btnSerializarJson = new Button();
+            btnSerializarXml = new Button();
+            btnDeserializarJson = new Button();
+            btnDeserializarXml = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvProductos).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
@@ -70,7 +75,7 @@
             dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
             dgvProductos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvProductos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvProductos.Columns.AddRange(new DataGridViewColumn[] { nombreProducto, tipoDeAnimal, stockDisponible, precioPorKilo });
+            dgvProductos.Columns.AddRange(new DataGridViewColumn[] { id, nombreProducto, tipoDeAnimal, stockDisponible, precioPorKilo });
             dgvProductos.EnableHeadersVisualStyles = false;
             dgvProductos.Location = new Point(291, 225);
             dgvProductos.Name = "dgvProductos";
@@ -78,9 +83,17 @@
             dgvProductos.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
             dgvProductos.RowHeadersWidth = 51;
             dgvProductos.RowTemplate.Height = 29;
-            dgvProductos.Size = new Size(646, 389);
+            dgvProductos.Size = new Size(666, 389);
             dgvProductos.TabIndex = 0;
             dgvProductos.CellClick += dgvProductos_CellClick_1;
+            // 
+            // id
+            // 
+            id.HeaderText = "Id";
+            id.MinimumWidth = 6;
+            id.Name = "id";
+            id.ReadOnly = true;
+            id.Width = 50;
             // 
             // nombreProducto
             // 
@@ -167,7 +180,7 @@
             btnModificar.ForeColor = SystemColors.Desktop;
             btnModificar.Image = (Image)resources.GetObject("btnModificar.Image");
             btnModificar.ImageAlign = ContentAlignment.MiddleLeft;
-            btnModificar.Location = new Point(25, 353);
+            btnModificar.Location = new Point(25, 299);
             btnModificar.Name = "btnModificar";
             btnModificar.Size = new Size(218, 49);
             btnModificar.TabIndex = 9;
@@ -270,7 +283,7 @@
             btnAgregar.ForeColor = Color.Black;
             btnAgregar.Image = (Image)resources.GetObject("btnAgregar.Image");
             btnAgregar.ImageAlign = ContentAlignment.MiddleLeft;
-            btnAgregar.Location = new Point(25, 271);
+            btnAgregar.Location = new Point(25, 225);
             btnAgregar.Name = "btnAgregar";
             btnAgregar.RightToLeft = RightToLeft.No;
             btnAgregar.Size = new Size(218, 51);
@@ -286,7 +299,7 @@
             btnEliminar.ForeColor = SystemColors.Desktop;
             btnEliminar.Image = (Image)resources.GetObject("btnEliminar.Image");
             btnEliminar.ImageAlign = ContentAlignment.MiddleLeft;
-            btnEliminar.Location = new Point(25, 434);
+            btnEliminar.Location = new Point(25, 370);
             btnEliminar.Name = "btnEliminar";
             btnEliminar.Size = new Size(218, 48);
             btnEliminar.TabIndex = 25;
@@ -305,13 +318,65 @@
             btnVolver.UseVisualStyleBackColor = false;
             btnVolver.Click += btnVolver_Click;
             // 
+            // btnSerializarJson
+            // 
+            btnSerializarJson.BackColor = SystemColors.ButtonShadow;
+            btnSerializarJson.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            btnSerializarJson.Location = new Point(12, 446);
+            btnSerializarJson.Name = "btnSerializarJson";
+            btnSerializarJson.Size = new Size(117, 43);
+            btnSerializarJson.TabIndex = 27;
+            btnSerializarJson.Text = "Serializar Json";
+            btnSerializarJson.UseVisualStyleBackColor = false;
+            btnSerializarJson.Click += btnSerializarJson_Click;
+            // 
+            // btnSerializarXml
+            // 
+            btnSerializarXml.BackColor = SystemColors.ButtonShadow;
+            btnSerializarXml.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            btnSerializarXml.Location = new Point(155, 446);
+            btnSerializarXml.Name = "btnSerializarXml";
+            btnSerializarXml.Size = new Size(120, 43);
+            btnSerializarXml.TabIndex = 28;
+            btnSerializarXml.Text = "Serializar Xml";
+            btnSerializarXml.UseVisualStyleBackColor = false;
+            btnSerializarXml.Click += btnSerializarXml_Click;
+            // 
+            // btnDeserializarJson
+            // 
+            btnDeserializarJson.BackColor = SystemColors.ButtonShadow;
+            btnDeserializarJson.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            btnDeserializarJson.Location = new Point(12, 510);
+            btnDeserializarJson.Name = "btnDeserializarJson";
+            btnDeserializarJson.Size = new Size(123, 55);
+            btnDeserializarJson.TabIndex = 29;
+            btnDeserializarJson.Text = "Deserializar Json";
+            btnDeserializarJson.UseVisualStyleBackColor = false;
+            btnDeserializarJson.Click += btnDeserializarJson_Click;
+            // 
+            // btnDeserializarXml
+            // 
+            btnDeserializarXml.BackColor = SystemColors.ButtonShadow;
+            btnDeserializarXml.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            btnDeserializarXml.Location = new Point(155, 510);
+            btnDeserializarXml.Name = "btnDeserializarXml";
+            btnDeserializarXml.Size = new Size(120, 55);
+            btnDeserializarXml.TabIndex = 30;
+            btnDeserializarXml.Text = "Deserializar Xml";
+            btnDeserializarXml.UseVisualStyleBackColor = false;
+            btnDeserializarXml.Click += btnDeserializarXml_Click;
+            // 
             // FrmAbrirHeladera
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
-            ClientSize = new Size(955, 631);
+            ClientSize = new Size(964, 627);
+            Controls.Add(btnDeserializarXml);
+            Controls.Add(btnDeserializarJson);
+            Controls.Add(btnSerializarXml);
+            Controls.Add(btnSerializarJson);
             Controls.Add(btnVolver);
             Controls.Add(btnEliminar);
             Controls.Add(btnAgregar);
@@ -361,10 +426,15 @@
         private Label lbStock;
         private Button btnAgregar;
         private Button btnEliminar;
+        private Button btnVolver;
+        private DataGridViewTextBoxColumn id;
         private DataGridViewTextBoxColumn nombreProducto;
         private DataGridViewTextBoxColumn tipoDeAnimal;
         private DataGridViewTextBoxColumn stockDisponible;
         private DataGridViewTextBoxColumn precioPorKilo;
-        private Button btnVolver;
+        private Button btnSerializarJson;
+        private Button btnSerializarXml;
+        private Button btnDeserializarJson;
+        private Button btnDeserializarXml;
     }
 }

@@ -31,9 +31,14 @@
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmVenta));
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmVenta));
             dgvProductos = new DataGridView();
+            nombreProducto = new DataGridViewTextBoxColumn();
+            tipoDeAnimal = new DataGridViewTextBoxColumn();
+            stockDisponible = new DataGridViewTextBoxColumn();
+            precioPorKilo = new DataGridViewTextBoxColumn();
+            Cantidad = new DataGridViewTextBoxColumn();
             txtNombreCliente = new TextBox();
             lbMontoMaximo = new Label();
             btnComprar = new Button();
@@ -49,11 +54,6 @@
             pictureBox2 = new PictureBox();
             lbNombreCliente = new Label();
             txtMontoIngresado = new TextBox();
-            nombreProducto = new DataGridViewTextBoxColumn();
-            tipoDeAnimal = new DataGridViewTextBoxColumn();
-            stockDisponible = new DataGridViewTextBoxColumn();
-            precioPorKilo = new DataGridViewTextBoxColumn();
-            Cantidad = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dgvProductos).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
@@ -98,6 +98,45 @@
             dgvProductos.TabIndex = 1;
             dgvProductos.CellBeginEdit += dgvProductos_CellBeginEdit;
             dgvProductos.CellClick += dgvProductos_CellClick;
+            dgvProductos.CellValidating += dgvProductos_CellValidating;
+            // 
+            // nombreProducto
+            // 
+            nombreProducto.HeaderText = "Nombre Producto";
+            nombreProducto.MinimumWidth = 6;
+            nombreProducto.Name = "nombreProducto";
+            nombreProducto.Width = 155;
+            // 
+            // tipoDeAnimal
+            // 
+            tipoDeAnimal.HeaderText = "Tipo de carne";
+            tipoDeAnimal.MinimumWidth = 6;
+            tipoDeAnimal.Name = "tipoDeAnimal";
+            tipoDeAnimal.Width = 150;
+            // 
+            // stockDisponible
+            // 
+            stockDisponible.HeaderText = "Stock disponible";
+            stockDisponible.MinimumWidth = 6;
+            stockDisponible.Name = "stockDisponible";
+            stockDisponible.Width = 157;
+            // 
+            // precioPorKilo
+            // 
+            dataGridViewCellStyle3.NullValue = null;
+            precioPorKilo.DefaultCellStyle = dataGridViewCellStyle3;
+            precioPorKilo.HeaderText = "Precio";
+            precioPorKilo.MinimumWidth = 6;
+            precioPorKilo.Name = "precioPorKilo";
+            precioPorKilo.Width = 105;
+            // 
+            // Cantidad
+            // 
+            Cantidad.HeaderText = "Cantidad en Kg";
+            Cantidad.MinimumWidth = 6;
+            Cantidad.Name = "Cantidad";
+            Cantidad.Resizable = DataGridViewTriState.True;
+            Cantidad.Width = 125;
             // 
             // txtNombreCliente
             // 
@@ -257,44 +296,6 @@
             txtMontoIngresado.Size = new Size(170, 27);
             txtMontoIngresado.TabIndex = 18;
             // 
-            // nombreProducto
-            // 
-            nombreProducto.HeaderText = "Nombre Producto";
-            nombreProducto.MinimumWidth = 6;
-            nombreProducto.Name = "nombreProducto";
-            nombreProducto.Width = 155;
-            // 
-            // tipoDeAnimal
-            // 
-            tipoDeAnimal.HeaderText = "Tipo de carne";
-            tipoDeAnimal.MinimumWidth = 6;
-            tipoDeAnimal.Name = "tipoDeAnimal";
-            tipoDeAnimal.Width = 150;
-            // 
-            // stockDisponible
-            // 
-            stockDisponible.HeaderText = "Stock disponible";
-            stockDisponible.MinimumWidth = 6;
-            stockDisponible.Name = "stockDisponible";
-            stockDisponible.Width = 157;
-            // 
-            // precioPorKilo
-            // 
-            dataGridViewCellStyle3.NullValue = null;
-            precioPorKilo.DefaultCellStyle = dataGridViewCellStyle3;
-            precioPorKilo.HeaderText = "Precio";
-            precioPorKilo.MinimumWidth = 6;
-            precioPorKilo.Name = "precioPorKilo";
-            precioPorKilo.Width = 105;
-            // 
-            // Cantidad
-            // 
-            Cantidad.HeaderText = "Cantidad en Kg";
-            Cantidad.MinimumWidth = 6;
-            Cantidad.Name = "Cantidad";
-            Cantidad.Resizable = DataGridViewTriState.True;
-            Cantidad.Width = 125;
-            // 
             // FrmVenta
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -323,7 +324,7 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Comprar productos";
             FormClosing += FrmVenta_FormClosing;
-            Load += FrmVenta_Load;
+            Load += FrmVenta_Load;           
             ((System.ComponentModel.ISupportInitialize)dgvProductos).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
