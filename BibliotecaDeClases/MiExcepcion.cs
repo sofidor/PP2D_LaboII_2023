@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BibliotecaDeClases
 {
-    internal class MiExcepcion : Exception
+    public class MiExcepcion : Exception
     {
         public MiExcepcion()
         {

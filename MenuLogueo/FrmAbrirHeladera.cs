@@ -29,14 +29,11 @@ namespace MenuLogueo
         }
 
         public void CargarDataGridView()
-        {
-            // Limpiar el DataGridView antes de volver a cargar los datos
+        {            
             dgvProductos.Rows.Clear();
-
             // Obtener los datos actualizados de la base de datos
             List<Producto> listaDeProductos = Carniceria.ObtenerProductos();
-
-            // Agregar los productos al DataGridView
+            
             foreach (Producto producto in listaDeProductos)
             {
                 dgvProductos.Rows.Add(producto.Id, producto.NombreProducto, producto.TipoDeAnimal, producto.StockDisponible, producto.PrecioPorKilo);
@@ -76,7 +73,7 @@ namespace MenuLogueo
 
                     limpiar();// limpiar los campos de texto
 
-                    btnModificar.Enabled = false; //deshabilito
+                    btnModificar.Enabled = false; 
                     btnAgregar.Enabled = true;
 
                 }
@@ -96,8 +93,7 @@ namespace MenuLogueo
         }
 
         private void btnModificar_Click(object sender, EventArgs e)
-        {
-            // Obtener los nuevos valores de los controles de edición
+        {            
             string nuevoNombre = txtProducto.Text;
             string nuevoTipo = txtDetalle.Text;
             double nuevoPrecio = double.Parse(txtPrecio.Text);
@@ -108,8 +104,7 @@ namespace MenuLogueo
             int indiceFilaSeleccionada = filaSeleccionada.Index;
 
             try
-            {
-                // Mostrar cuadro de diálogo de confirmación
+            {               
                 DialogResult resultado = MessageBox.Show("¿Desea modificar el producto?", "Confirmar modificación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                 if (resultado == DialogResult.Yes)
@@ -123,15 +118,13 @@ namespace MenuLogueo
 
                     // Llamar al método Modificar de ProductosDAO para actualizar el producto en la base de datos
                     ProductosDAO.Modificar(productoSeleccionado);
-
-                    // Limpiar los controles de edición
+                    
                     limpiar();
                     dgvProductos.ClearSelection();
 
                     MessageBox.Show("El producto ha sido modificado con éxito.", "Modificación exitosa", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    // Volver a cargar los datos del SQL en el DataGridView
-                    //listaDeProductos = Carniceria.ObtenerProductos();
+                    // Volver a cargar los datos del SQL en el Data                   
                     CargarDataGridView();
                 }
                 else
@@ -160,7 +153,9 @@ namespace MenuLogueo
                     return;
                 }
 
-                if (!EsString(tipo))
+                if (!string.Equals(tipo, "pollo", StringComparison.OrdinalIgnoreCase) &&
+                 !string.Equals(tipo, "vaca", StringComparison.OrdinalIgnoreCase) &&
+                 !string.Equals(tipo, "cerdo", StringComparison.OrdinalIgnoreCase))
                 {
                     MessageBox.Show("Error en el valor ingresado en el campo Tipo", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
@@ -184,8 +179,7 @@ namespace MenuLogueo
                 Producto nuevoProducto = new Producto(producto, tipo, stockInt, valorFloat);
 
                 try
-                {
-                    // Mostrar cuadro de diálogo de confirmación
+                {                   
                     DialogResult resultado = MessageBox.Show("¿Desea crear el producto?", "Confirmar creación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                     if (resultado == DialogResult.Yes)
@@ -199,12 +193,11 @@ namespace MenuLogueo
                         txtProducto.Focus();
 
                         btnModificar.Enabled = false;
-                        dgvProductos.ClearSelection(); // Deseleccionar la fila
+                        dgvProductos.ClearSelection(); 
 
                         MessageBox.Show("El producto ha sido agregado con éxito.", "Creación exitosa", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                        // Volver a cargar los datos del SQL en el DataGridView
-                        //listaDeProductos = Carniceria.ObtenerProductos();
+                        // Volver a cargar los datos del SQL en el Data                        
                         CargarDataGridView();
                     }
                     else
@@ -223,30 +216,22 @@ namespace MenuLogueo
             }
         }
         private void btnEliminar_Click(object sender, EventArgs e)
-        {
-            // Obtener la fila seleccionada
+        {           
             DataGridViewRow filaSeleccionada = dgvProductos.CurrentRow;
 
             if (filaSeleccionada != null)
             {
-                // Obtener el nombre del producto en la fila seleccionada (asumiendo que está en la segunda columna)
-                //string nombreProducto = filaSeleccionada.Cells[1].Value.ToString();
+                // Obtener el nombre del producto en la fila seleccionada (asumiendo que está en la segunda columna)               
                 int idProducto = Convert.ToInt32(filaSeleccionada.Cells[0].Value);
 
-
                 try
-                {
-                    // Mostrar cuadro de diálogo de confirmación
+                {                    
                     DialogResult resultado = MessageBox.Show("¿Desea eliminar el producto?", "Confirmar eliminación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                     if (resultado == DialogResult.Yes)
                     {
                         // Eliminar el producto de la base de datos por nombre
-                        ProductosDAO.Eliminar(idProducto);
-
-                        // Eliminar la fila del DataGridView
-                        //dgvProductos.Rows.Remove(filaSeleccionada);
-
+                        ProductosDAO.Eliminar(idProducto);                        
                         limpiar();
                         dgvProductos.ClearSelection();
 
@@ -266,10 +251,13 @@ namespace MenuLogueo
                 }
             }
         }
-
+        /// <summary>
+        ///  Verifica si el valor es de tipo string y contiene solo letras
+        /// </summary>
+        /// <param name="valor"></param>
+        /// <returns></returns>
         private bool EsString(string valor)
-        {
-            // Verificar si el valor es de tipo string y contiene solo letras
+        {            
             return !string.IsNullOrEmpty(valor) && Regex.IsMatch(valor, @"^[a-zA-Z]+$");
         }
 

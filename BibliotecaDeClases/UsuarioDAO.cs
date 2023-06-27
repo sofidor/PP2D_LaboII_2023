@@ -200,6 +200,39 @@ namespace BibliotecaDeClases
                 }
             }
         }
+        public static string ObtenerNombreVendedor(string mailVendedor)
+        {
+            try
+            {
+                connection.Open();
+
+                string nombreVendedor = null;
+
+                SqlCommand command = new SqlCommand("SELECT nombreVendedor FROM Vendedores WHERE mailUsuario = @mail", connection);
+                command.Parameters.AddWithValue("@mail", mailVendedor);
+
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        nombreVendedor = reader.GetString(0);
+                    }
+                }
+
+                return nombreVendedor;
+            }
+            catch (Exception)
+            {
+                throw new Exception("Error de conexión a la base de datos");
+            }
+            finally
+            {
+                if (connection.State == ConnectionState.Open)
+                {
+                    connection.Close();
+                }
+            }
+        }
 
     }
 }

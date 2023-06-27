@@ -9,7 +9,7 @@ namespace BibliotecaDeClases
     public static class Carniceria
     {       
         private static List<Producto> listaDeProductos = new List<Producto>();
-        private static List<Venta> listaVentas = new List<Venta>(); // Inicializar lista de ventas
+        private static List<Venta> listaVentas = new List<Venta>(); 
         private static List<Cliente> listaDeClientes = new List<Cliente>();
         private static List<Vendedor> listaDeVendedores = new List<Vendedor>();    
 
@@ -17,8 +17,7 @@ namespace BibliotecaDeClases
         {                  
             CargarProductos(); //inicializo las listas
             CargarClientes();
-            CargarVendedores();
-           
+            CargarVendedores();           
         }
         /// <summary>
         /// carga productos a la lista de productos
@@ -35,7 +34,9 @@ namespace BibliotecaDeClases
         {
             listaDeClientes = UsuarioDAO.LeerCliente();
         }
-
+        /// <summary>
+        /// carga los vendedores a la lista de vendedores
+        /// </summary>
         public static void CargarVendedores() 
         {
             listaDeVendedores = UsuarioDAO.LeerVendedor();
@@ -56,34 +57,6 @@ namespace BibliotecaDeClases
         {
             return listaDeClientes;
         }
-        public static List<Venta> ObtenerHistorialVentas()
-        {
-            return listaVentas;
-        }
-        public static List<Vendedor> ObtenerVendedores()
-        {
-            return listaDeVendedores;
-        }
-
-        /// <summary>
-        /// Filtra la lista de los productos segun el tipo de animal , y la retorna
-        /// </summary>
-        /// <param name="tipoDeAnimal">Tipo de animal </param>
-        /// <returns>la lista que coincide con el tipo de animal</returns>
-        public static List<Producto> BuscarPorTipoCorte(string tipoDeAnimal)
-        {
-            List<Producto> lista = new List<Producto>();
-
-            foreach (Producto item in listaDeProductos) //itero sobre cada producto
-            {
-                if (item.TipoDeAnimal.Equals(tipoDeAnimal)) //equals compara los valores de dos cadenas de texto
-                {
-                    lista.Add(item);
-                }
-            }
-
-            return lista;
-        }
         /// <summary>
         /// agrega una venta a la lista de ventas
         /// </summary>
@@ -93,17 +66,11 @@ namespace BibliotecaDeClases
             listaVentas.Clear();
             listaVentas.Add(venta);
         }
-
-      /// <summary>
-      /// obtiene la lista de ventas
-      /// </summary>
-      /// <returns>lista de ventas</returns>
-        public static List<Venta> ObtenerVentas()
-        {
-            return listaVentas;
-        }       
-
-        public static void CargarDBHistorial()
+      
+        /// <summary>
+        /// carga el historial de ventas a la lista de ventas
+        /// </summary>
+        public static void CargarHistorial()
         {
             historialVentasDAO.insertarVentas(listaVentas);
         }

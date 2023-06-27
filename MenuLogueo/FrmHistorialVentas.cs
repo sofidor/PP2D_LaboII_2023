@@ -23,10 +23,8 @@ namespace MenuLogueo
             CargarDataGridView(ventasRealizadas);
             this.FormClosing += new FormClosingEventHandler(FrmHistorialVentas_FormClosing);//cerrar form desde la cruz
         }
-
         private void FrmHistorialVentas_Load(object sender, EventArgs e)
-        {
-            ;
+        {            
             btnDeserializarJson.Enabled = false;
         }
         private void CargarDataGridView(List<Venta> ventasRealizadas)
@@ -48,6 +46,7 @@ namespace MenuLogueo
         private void btnGuardarTxt_Click(object sender, EventArgs e)
         {
             string ruta = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            //string ruta = "lala";
             string archivoPath = @"\historial_ventas.txt";
             string rutaCompleta = ruta + archivoPath;
 
@@ -55,7 +54,7 @@ namespace MenuLogueo
             {
                 if (!Directory.Exists(ruta))
                 {
-                    throw new Exception("Error en la ruta del archivo");
+                    throw new MiExcepcion("Error en la ruta del archivo");
                 }
                 using (StreamWriter sw = new StreamWriter(rutaCompleta, true))
                 {
@@ -81,9 +80,13 @@ namespace MenuLogueo
 
                 MessageBox.Show("Historial de ventas guardado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            catch (Exception ex)
+            catch (MiExcepcion ex)
             {
                 MessageBox.Show($"Ocurrió un error en {rutaCompleta} -  Excepcion generada: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ocurrió un error general - Excepción generada: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

@@ -36,7 +36,7 @@ namespace TestProject2
             string nombre = "66123";
 
             // Act
-            bool result = Cliente.ValidarNombre(nombre); 
+            bool result = nombre.EsNombreValido(); 
 
             // Assert
             Assert.IsFalse(result);

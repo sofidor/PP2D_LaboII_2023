@@ -141,16 +141,8 @@ namespace BibliotecaDeClases
                     sb.AppendLine($"Stock disponible: {item.StockDisponible}");
                     sb.AppendLine("");
                 }
-
                 return sb.ToString();
-
             }
         }
-
-        public override string ToString()
-        {
-            return $"Nombre del producto: {nombreProducto}, Tipo de animal: {tipoDeAnimal}, Stock disponible: {stockDisponible}, Precio por kilo: {precioPorKilo}, Cantidad seleccionada: {cantidadSeleccionada}";
-        }
-
     }
 }

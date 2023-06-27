@@ -8,6 +8,11 @@ namespace BibliotecaDeClases
 {
     public static class productoExtension
     {
+        /// <summary>
+        /// Filtra la lista de los productos segun el tipo de animal , y la retorna
+        /// </summary>
+        /// <param name="tipoDeAnimal">Tipo de animal </param>
+        /// <returns>la lista que coincide con el tipo de animal</returns>
         public static List<Producto> BuscarPorTipoCorte(this List<Producto> listaDeProductos, string tipoDeAnimal)
         {
             List<Producto> lista = new List<Producto>();
@@ -22,9 +27,5 @@ namespace BibliotecaDeClases
             return lista;
         }
 
-        public static bool TieneSuficienteStock(this Producto producto, int cantidadDeseada)
-        {
-            return producto.StockDisponible >= cantidadDeseada;
-        }
     }
 }

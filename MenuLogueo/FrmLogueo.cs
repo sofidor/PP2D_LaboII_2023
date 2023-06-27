@@ -30,7 +30,6 @@ namespace MenuLogueo
         }
         private void btnLoguearse_Click(object sender, EventArgs e)
         {
-
             string correo = txtMail.Text;
             string contrasena = txtPass.Text;
 
@@ -42,29 +41,16 @@ namespace MenuLogueo
 
             try
             {
-                // Verificar las credenciales del cliente
+                // Verificar datos del cliente
                 bool credencialesClienteValidas = UsuarioDAO.VerificarCredencialesCliente(correo, contrasena);
 
                 if (credencialesClienteValidas)
-                {
-                    //// Inicio de sesión exitoso
-                    //string nombreCliente = UsuarioDAO.ObtenerNombreCliente(correo);
-                    //// Las credenciales del cliente son válidas, abrir el formulario de venta
-                    //SoundPlayer sonidoLogueo = new SoundPlayer();
-                    //sonidoLogueo.SoundLocation = "C:/Users/sofia/Downloads/SonidoInicioDeSesion.wav";
-                    //sonidoLogueo.Play();
-
-                    //FrmVenta ventaForm = new FrmVenta(nombreCliente);
-                    //ventaForm.Show();
-                    //this.Hide();
-                    //return;
-
-                    // Inicio de sesión exitoso
+                {                    
                     string nombreCliente = UsuarioDAO.ObtenerNombreCliente(correo);
                     SoundPlayer sonidoLogueo = new SoundPlayer();
                     sonidoLogueo.SoundLocation = "C:/Users/sofia/Downloads/SonidoInicioDeSesion.wav";
                     sonidoLogueo.Play();
-                    // Las credenciales del cliente son válidas, mostrar mensaje de bienvenida en un hilo separado
+                    //si los datos del cliente son válidos, mostrar mensaje de bienvenida en un hilo separado
                     Thread hiloBienvenida = new Thread(() =>
                     {
                         MessageBox.Show("Bienvenido, " + nombreCliente, "Hola de nuevo!", MessageBoxButtons.OK);
@@ -80,19 +66,19 @@ namespace MenuLogueo
                     return;
                 }
 
-                // Verificar las credenciales del vendedor
+                // Verificar datos del vendedor
                 bool credencialesVendedorValidas = UsuarioDAO.VerificarCredencialesVendedor(correo, contrasena);
 
                 if (credencialesVendedorValidas)
                 {
-                    // Las credenciales del vendedor son válidas, abrir el formulario correspondiente
+                    string nombreVendedor = UsuarioDAO.ObtenerNombreVendedor(correo);
                     SoundPlayer sonidoLogueo = new SoundPlayer();
                     sonidoLogueo.SoundLocation = "C:\\Users\\sofia\\Downloads\\SD_STARTUP_4.wav";
                     sonidoLogueo.Play();
-                    // Las credenciales del cliente son válidas, mostrar mensaje de bienvenida en un hilo separado
+                    // si los datos del cliente son válidos, mostrar mensaje de bienvenida en un hilo separado
                     Thread hiloBienvenida = new Thread(() =>
                     {
-                        MessageBox.Show("Bienvenido a la moderna" , "Hola de nuevo!", MessageBoxButtons.OK);
+                        MessageBox.Show("Bienvenido, " + nombreVendedor , "Hola de nuevo!", MessageBoxButtons.OK);
                     });
                     hiloBienvenida.Start();
 
@@ -104,7 +90,7 @@ namespace MenuLogueo
                     return;
                 }
 
-                // Las credenciales no corresponden ni a cliente ni a vendedor
+                // los datos no corresponden ni a cliente ni a vendedor
                 MessageBox.Show("Usuario o contraseña incorrectos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (Exception ex)
@@ -129,7 +115,6 @@ namespace MenuLogueo
                 txtPass.PasswordChar = '*';
             }
         }
-
         private void FrmLogueo_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (e.CloseReason == CloseReason.UserClosing)

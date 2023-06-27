@@ -12,7 +12,7 @@ using static BibliotecaDeClases.Producto;
 
 namespace MenuLogueo
 {
-    public delegate void SinStockEventHandler();
+    public delegate void SinStockEventHandler();// lo utilizo para representar mi evento
 
     public partial class FrmVenderProducto : Form
     {
@@ -130,7 +130,7 @@ namespace MenuLogueo
 
         private void MostrarMensajeSinStock()
         {
-            MessageBox.Show("No hay suficiente stock del producto seleccionado.", "Stock agotado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            MessageBox.Show("No hay stock del producto seleccionado.", "Stock agotado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
         private void dgvProductos_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
         {
@@ -247,7 +247,7 @@ namespace MenuLogueo
                 // Crear una instancia del formulario FrmFacturaDueño y pasar el cliente seleccionado
                 FrmFactura frmFacturaDueño = new FrmFactura(productosVendidos, precioTotal, precioFinal, clienteSeleccionadoNombre, metodoPago, vendedor.nombreVendedor);
                 frmFacturaDueño.Show();
-                Carniceria.CargarDBHistorial();
+                Carniceria.CargarHistorial();
             }
             else
             {

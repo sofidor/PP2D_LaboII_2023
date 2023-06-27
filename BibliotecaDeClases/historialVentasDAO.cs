@@ -59,7 +59,6 @@ namespace BibliotecaDeClases
                 }
             }
         }
-
         public static void insertarVentas(List<Venta> ventas)
         {
             try

@@ -142,7 +142,7 @@ namespace MenuLogueo
             DialogResult confirmarVenta;
             List<Producto> productosComprados = new List<Producto>();  // Crear una nueva lista para almacenar los productos comprados
 
-            if (!Cliente.ValidarNombre(nombrecliente))
+            if (!nombrecliente.EsNombreValido())
             {
                 MessageBox.Show("Por favor, ingrese un nombre válido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -230,7 +230,7 @@ namespace MenuLogueo
                 Venta venta = new Venta(productosComprados, nombrecliente);
                 Carniceria.CargarVenta(venta);
 
-                Carniceria.CargarDBHistorial();
+                Carniceria.CargarHistorial();
 
             }
             else

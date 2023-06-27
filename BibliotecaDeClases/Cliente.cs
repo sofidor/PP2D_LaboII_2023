@@ -66,16 +66,6 @@ namespace BibliotecaDeClases
         {
             get { return metodoPago; }
         }
-        /// <summary>
-        /// valida si un nombre contiene solo letras
-        /// </summary>
-        /// <param name="nombre">nombre que se valida</param>
-        /// <returns>retorna true si el nombre cumple o false si no lo hace</returns>
-        public static bool ValidarNombre(string nombre)
-        {
-            Regex regex = new Regex("^[a-zA-Z ]+$"); 
-            return regex.IsMatch(nombre);
-        }
 
         public override string ToString()
         {

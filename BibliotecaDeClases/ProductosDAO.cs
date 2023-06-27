@@ -13,8 +13,7 @@ namespace BibliotecaDeClases
         static string connectionstring;
         static SqlCommand command;
         static SqlConnection connection;
-
-        //ADO
+        
         static ProductosDAO()
         {
             connectionstring = @"Data Source= SOFIDOR;Initial Catalog=Parcial2_UTN;Integrated Security=True;";
@@ -39,8 +38,7 @@ namespace BibliotecaDeClases
                     string nombreProducto = reader["nombreProducto"].ToString();
                     string tipoDeAnimal = reader["tipoDeAnimal"].ToString();
                     double precioPorKilo = Convert.ToDouble(reader["precioPorKilo"]);
-                    int stockDisponible = Convert.ToInt32(reader["stockDisponible"]);
-                    //int cantidadSeleccionada = Convert.ToInt32(reader["Cantidad"]);
+                    int stockDisponible = Convert.ToInt32(reader["stockDisponible"]);                    
 
                     productos.Add(new Producto(id, nombreProducto, tipoDeAnimal, stockDisponible, precioPorKilo));
                 }
